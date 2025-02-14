@@ -1,9 +1,8 @@
 package com.goodmn.waybill_shaper.extractor;
 
 import com.goodmn.waybill_shaper.model.Vehicle;
-import com.goodmn.waybill_shaper.service.MessageHandler;
+import com.goodmn.waybill_shaper.service.DataExtractionUtility;
 import com.goodmn.waybill_shaper.service.VehicleService;
-import com.pengrad.telegrambot.model.Message;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,27 +17,27 @@ import static com.goodmn.waybill_shaper.extractor.Constant.*;
 @Component
 @RequiredArgsConstructor
 public class VehicleExtractor implements Extractable<Vehicle> {
-    private final MessageHandler messageHandler;
+    private final DataExtractionUtility dataExtractionUtility;
     private final VehicleService vehicleService;
 
     private final Logger log = LoggerFactory.getLogger(VehicleExtractor.class);
 
     @Override
-    public Vehicle extractData(Message message) {
-        log.debug("Извлечение данных о транспортном средстве...");
+    public Vehicle extractData() {
+        log.debug("ИЗВЛЕЧЕНИЕ ДАННЫХ О ТРАНСПОРТНОМ СРЕДСТВЕ!");
 
-        List<String> orderData = messageHandler.getOrderElement(message, VEHICLE_TYPE);
-        if (orderData.isEmpty()) {
-            return new Vehicle()
-                    .setRegistrationMark(EMPTY_STRING)
-                    .setMark(EMPTY_STRING)
-                    .setType(EMPTY_STRING);
+        List<String> orderVehicle = dataExtractionUtility.getOrderElement(VEHICLE_TYPE);
+
+        if (orderVehicle.isEmpty()) {
+            return vehicleService.DEFAULT_VEHICLE;
         }
 
-        String registrationMarks = extractRegistrationMark(orderData.get(0));
+        String registrationMarks = formatRegistrationMark(extractRegistrationMark(orderVehicle.get(0)));
 
-        log.debug("РЕГИСТРАЦИОННЫЙ ЗНАК ТС: '{}'", registrationMarks);
-        return vehicleService.findById(formatRegistrationMark(registrationMarks));
+        Vehicle vehicle = vehicleService.getByRegistrationMark(registrationMarks);
+        log.debug("РЕГИСТРАЦИОННЫЙ ЗНАК ТС: '{}'", vehicle.getRegistrationMark());
+
+        return vehicle;
     }
 
     private String extractRegistrationMark(String orderData) {
@@ -47,10 +46,10 @@ public class VehicleExtractor implements Extractable<Vehicle> {
         Pattern pattern = Pattern.compile(REG_MARK_REGEX);
         Matcher matcher = pattern.matcher(orderData);
         if (matcher.find()) {
-            log.debug("Данные о транспортном средстве получены успешно.");
+            log.debug("ДАННЫЕ О ТРАНСПОРТНОМ СРЕДСТВЕ УСПЕШНО ПОЛУЧЕНЫ.");
             return matcher.group();
         }
-        log.debug("Данные о транспортном средстве не получены!");
+        log.debug("ДАННЫЕ О ТРАНСПОРТНОМ СРЕДСТВЕ ОТСУТСТВУЮТ!");
         return EMPTY_STRING;
     }
 

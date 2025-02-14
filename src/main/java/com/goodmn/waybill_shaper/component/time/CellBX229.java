@@ -3,7 +3,6 @@ package com.goodmn.waybill_shaper.component.time;
 import com.goodmn.waybill_shaper.component.Writable;
 import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Time;
-import com.pengrad.telegrambot.model.Message;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -23,10 +22,10 @@ public class CellBX229 implements Writable {
     private final Logger log = LoggerFactory.getLogger(CellBX229.class);
 
     @Override
-    public void writeData(Message message, Workbook workbook) {
+    public void writeData(Workbook workbook) {
         Cell cell = getCell(workbook, SHEET, ROW, COLUMN);
 
-        String endBreak = extractable.extractData(message)
+        String endBreak = extractable.extractData()
                 .getEndBreak();
 
         log.debug("Запись данных о времени окончания внутрисменного перерыва.");

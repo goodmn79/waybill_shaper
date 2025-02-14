@@ -1,8 +1,7 @@
 package com.goodmn.waybill_shaper.extractor;
 
 import com.goodmn.waybill_shaper.model.Time;
-import com.goodmn.waybill_shaper.service.MessageHandler;
-import com.pengrad.telegrambot.model.Message;
+import com.goodmn.waybill_shaper.service.DataExtractionUtility;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,16 +15,15 @@ import static com.goodmn.waybill_shaper.extractor.Constant.*;
 @Component
 @RequiredArgsConstructor
 public class TimeExtractor implements Extractable<Time> {
-    private final MessageHandler messageHandler;
+    private final DataExtractionUtility dataExtractionUtility;
 
     private final Logger log = LoggerFactory.getLogger(TimeExtractor.class);
 
     @Override
-    public Time extractData(Message message) {
+    public Time extractData() {
         log.debug("Извлечение данных о времени заказа...");
 
-        List<String> orderData = messageHandler.getOrderElement(message, TIME);
-        List<String> orderTime = extractTime(orderData);
+        List<String> orderTime = extractTime(dataExtractionUtility.getOrderElement(TIME));
         log.debug("КОЛИЧЕСТВО ЭЛЕМЕНТОВ СПИСКА ТАЙМИНГОВ: {}", orderTime.size());
         Time time = new Time();
 
@@ -56,7 +54,7 @@ public class TimeExtractor implements Extractable<Time> {
         List<String> orderTime = orderDataList
                 .stream()
                 .map(t -> t.replaceAll(TIME, SPACE).trim())
-                .flatMap(t-> Arrays.stream(t.split("-")))
+                .flatMap(t -> Arrays.stream(t.split("-")))
                 .toList();
 
         if (orderTime.isEmpty()) {

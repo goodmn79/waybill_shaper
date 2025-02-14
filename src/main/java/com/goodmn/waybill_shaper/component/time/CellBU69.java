@@ -3,7 +3,6 @@ package com.goodmn.waybill_shaper.component.time;
 import com.goodmn.waybill_shaper.component.Writable;
 import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Time;
-import com.pengrad.telegrambot.model.Message;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -23,10 +22,10 @@ public class CellBU69 implements Writable {
     private final Logger log = LoggerFactory.getLogger(CellBU69.class);
 
     @Override
-    public void writeData(Message message, Workbook workbook) {
+    public void writeData(Workbook workbook) {
         Cell cell = getCell(workbook, SHEET, ROW, COLUMN);
 
-        String arrivalTime = extractable.extractData(message)
+        String arrivalTime = extractable.extractData()
                 .getDepartureTime();
 
         log.debug("Запись данных о времени начала смены.");
