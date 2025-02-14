@@ -4,7 +4,6 @@ import com.goodmn.waybill_shaper.component.Writable;
 import com.goodmn.waybill_shaper.component.customer.CellAK61;
 import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Time;
-import com.pengrad.telegrambot.model.Message;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -24,10 +23,10 @@ public class CellBP229 implements Writable {
     private final Logger log = LoggerFactory.getLogger(CellAK61.class);
 
     @Override
-    public void writeData(Message message, Workbook workbook) {
+    public void writeData(Workbook workbook) {
         Cell cell = getCell(workbook, SHEET, ROW, COLUMN);
 
-        String startBreak = extractable.extractData(message)
+        String startBreak = extractable.extractData()
                 .getStartBreak();
 
         log.debug("Запись данных о времени начала внутрисменного перерыва.");

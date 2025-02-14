@@ -1,8 +1,7 @@
 package com.goodmn.waybill_shaper.extractor;
 
 import com.goodmn.waybill_shaper.model.Date;
-import com.goodmn.waybill_shaper.service.MessageHandler;
-import com.pengrad.telegrambot.model.Message;
+import com.goodmn.waybill_shaper.service.DataExtractionUtility;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,15 +16,15 @@ import static com.goodmn.waybill_shaper.extractor.Constant.*;
 @Component
 @RequiredArgsConstructor
 public class DateExtractor implements Extractable<Date> {
-    private final MessageHandler messageHandler;
+    private final DataExtractionUtility dataExtractionUtility;
 
     private final Logger log = LoggerFactory.getLogger(DateExtractor.class);
 
     @Override
-    public Date extractData(Message message) {
-        log.debug("Извлечение данных о дате заказа...");
+    public Date extractData() {
+        log.debug("ИЗВЛЕЧЕНИЕ ДАННЫХ О ДАТЕ ЗАКАЗА!");
 
-        List<String> orderDate = messageHandler.getOrderElement(message, DATE);
+        List<String> orderDate = dataExtractionUtility.getOrderElement(DATE);
 
         String numericDateFormat;
         String textDateFormat;
@@ -54,11 +53,13 @@ public class DateExtractor implements Extractable<Date> {
 
     private LocalDate getLocalDate(String orderData) {
         String date = extractDate(orderData);
+        log.debug("СТРОКА С ДАТОЙ, ДЛЯ ПАРСИНГА: {}", date);
+
         if (StringUtils.isBlank(date)) {
-            log.debug("Данные о дате заказа не получены! Будет установлена текущая дата!");
+            log.debug("ДАТА ОТСУТСТВУЕТ! БУДЕТ УСТАНОВЛЕНА ТЕКУЩАЯ ДАТА!");
             return LocalDate.now();
         }
-        log.debug("Данные о дате заказа получены успешно.");
+        log.debug("ДАТА УСПЕШНО ИЗВЛЕЧЕНА.");
         return LocalDate.parse(date, NUMERIC_DATE_FORMAT);
     }
 

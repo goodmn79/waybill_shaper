@@ -1,8 +1,7 @@
 package com.goodmn.waybill_shaper.extractor;
 
 import com.goodmn.waybill_shaper.model.Customer;
-import com.goodmn.waybill_shaper.service.MessageHandler;
-import com.pengrad.telegrambot.model.Message;
+import com.goodmn.waybill_shaper.service.DataExtractionUtility;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,15 +16,15 @@ import static com.goodmn.waybill_shaper.extractor.Constant.EMPTY_STRING;
 @Component
 @RequiredArgsConstructor
 public class CustomerExtractor implements Extractable<Customer> {
-    private final MessageHandler messageHandler;
+    private final DataExtractionUtility dataExtractionUtility;
 
     private final Logger log = LoggerFactory.getLogger(CustomerExtractor.class);
 
     @Override
-    public Customer extractData(Message message) {
+    public Customer extractData() {
         log.debug("Извлечение данных о заказчике...");
 
-        List<String> orderCustomer = messageHandler.getOrderElement(message, CUSTOMER);
+        List<String> orderCustomer = dataExtractionUtility.getOrderElement(CUSTOMER);
         if (orderCustomer.isEmpty()) {
             return new Customer()
                     .setCustomer(EMPTY_STRING);
