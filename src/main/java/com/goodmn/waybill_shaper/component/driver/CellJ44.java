@@ -28,7 +28,7 @@ public class CellJ44 implements Writable {
         String value = extractable.extractData()
                 .getDl();
 
-        log.debug("Запись данных о заказчике.");
+        log.debug("Запись данных о водителе.");
         cell.setCellValue(value);
     }
 }

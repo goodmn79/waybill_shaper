@@ -28,7 +28,7 @@ public class CellF40 implements Writable {
         String value = extractable.extractData()
                 .getFullName();
 
-        log.debug("Запись данных о заказчике.");
+        log.debug("Запись данных о водителе.");
         cell.setCellValue(value);
     }
 }

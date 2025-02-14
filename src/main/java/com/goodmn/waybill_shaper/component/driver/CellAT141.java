@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CellAH40 implements Writable {
+public class CellAT141 implements Writable {
     private static final int SHEET = 0;
-    private static final int ROW = 39;
-    private static final int COLUMN = 33;
+    private static final int ROW = 140;
+    private static final int COLUMN = 45;
 
     private final Extractable<Driver> extractable;
 
@@ -26,7 +26,7 @@ public class CellAH40 implements Writable {
     public void writeData(Workbook workbook) {
         Cell cell = getCell(workbook, SHEET, ROW, COLUMN);
         String value = extractable.extractData()
-                .getSsn();
+                .getLastNameAndInitials();
 
         log.debug("Запись данных о водителе.");
         cell.setCellValue(value);
