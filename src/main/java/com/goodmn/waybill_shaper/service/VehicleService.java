@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
 
 @Service
@@ -21,12 +23,16 @@ public class VehicleService {
             .setType(EMPTY_STRING);
 
     public Vehicle getByRegistrationMark(String registrationMark) {
-        Vehicle vehicle= vehicleRepository.findByRegistrationMark(registrationMark)
-                .orElseGet(()->{
-                    log.error("Данные транспортного средства не получены!");
-                    return DEFAULT_VEHICLE;
-        });
-        log.error("Данные транспортного средства успешно получены.");
-        return vehicle;
+        log.info("Получение данных о транспортном средстве...");
+
+        Optional<Vehicle> vehicle = vehicleRepository.findByRegistrationMark(registrationMark);
+
+        if (vehicle.isPresent()) {
+            log.info("Данные транспортного средства успешно получены.");
+            return vehicle.get();
+        } else {
+            log.error("Данные транспортного средства не получены!");
+            return DEFAULT_VEHICLE;
+        }
     }
 }

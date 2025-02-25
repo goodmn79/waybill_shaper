@@ -39,11 +39,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             telegramBot.execute(messageHandler.handleMessage(message));
 
             if (!statusManager.isWaitingDataStatus()) {
+                log.info("Файл отправлен пользователю.");
                 messageHandler.deleteFile(FILE_NAME);
             }
         });
-
-        log.info("Процесс прослушивания обновлений завершен.");
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 }
