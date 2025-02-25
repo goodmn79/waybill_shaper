@@ -30,14 +30,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Override
     public int process(List<Update> updates) {
+        log.info("Процесс прослушивания обновлений...");
 
         updates.forEach(update -> {
-            log.info("Update processing: \"{}\"", update.updateId());
             Message message = update.message();
             telegramBot.execute(messageHandler.handleMessage(message));
 
             messageHandler.deleteFile(FILE_NAME);
         });
+
+        log.info("Процесс прослушивания обновлений завершен.");
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 }

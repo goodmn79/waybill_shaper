@@ -31,7 +31,6 @@ public class DataExtractionUtility {
             statusManager.removeWaitingDataStatus();
         } else {
             this.userId = message.from().id();
-            log.info("Идентификатор пользователя, для получения данных о водителе: \"{}\"", userId);
 
             String text = message.text();
             String[] lines = text.split("\\n");
