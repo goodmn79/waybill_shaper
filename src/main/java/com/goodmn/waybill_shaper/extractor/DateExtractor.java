@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.*;
 
 @Component
 @RequiredArgsConstructor

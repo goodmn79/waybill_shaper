@@ -1,6 +1,5 @@
-package com.goodmn.waybill_shaper.component.customer;
+package com.goodmn.waybill_shaper.component;
 
-import com.goodmn.waybill_shaper.component.Writable;
 import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Customer;
 import lombok.RequiredArgsConstructor;
@@ -9,38 +8,34 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
-public class CellAK61 implements Writable {
-    private static final int SHEET = 0;
-    private static final int ROW1 = 60;
-    private static final int ROW2 = 65;
-    private static final int COLUMN = 36;
-
+public class CustomerDataWriter implements Writable {
     private final Extractable<Customer> extractable;
 
-    private final Logger log = LoggerFactory.getLogger(CellAK61.class);
+    private final Logger log = LoggerFactory.getLogger(CustomerDataWriter.class);
 
     @Override
     public void writeData(Workbook workbook) {
+        log.info("Запись данных о заказчике...");
 
-        Cell cell1 = getCell(workbook, SHEET, ROW1, COLUMN);
+        Cell AK61 = this.cell(workbook, 60, 36);
+        Cell AK66 = this.cell(workbook, 65, 36);
+        Cell BS44 = this.cell(workbook, 43, 70);
 
         String customer = extractable.extractData()
                 .getCustomer();
 
         String value1 = StringUtils.substringBefore(customer, " ");
-
-        log.debug("Запись данных о заказчике.");
-        cell1.setCellValue(value1);
+        AK61.setCellValue(value1);
 
         String value2 = StringUtils.substringAfter(customer, " ");
 
         if (StringUtils.isNotBlank(value2)) {
-            Cell cell2 = getCell(workbook, SHEET, ROW2, COLUMN);
-            cell2.setCellValue(value2);
+            AK66.setCellValue(value2);
         }
+        BS44.setCellValue(customer);
+
+        log.info("Данные о заказчике успешно записаны.");
     }
 }

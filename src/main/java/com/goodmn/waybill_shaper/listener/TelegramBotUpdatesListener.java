@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.FILE_NAME;
+import static com.goodmn.waybill_shaper.constant.Constant.FILE_NAME;
 
 @Service
 @RequiredArgsConstructor

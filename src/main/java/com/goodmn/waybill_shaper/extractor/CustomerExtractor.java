@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.CUSTOMER;
-import static com.goodmn.waybill_shaper.extractor.Constant.EMPTY_STRING;
+import static com.goodmn.waybill_shaper.constant.Constant.CUSTOMER;
+import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
 
 @Component
 @RequiredArgsConstructor

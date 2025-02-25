@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.*;
 
 @Component
 @Getter

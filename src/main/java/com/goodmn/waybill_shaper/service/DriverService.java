@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.EMPTY_STRING;
+import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
 
 @Service
 @RequiredArgsConstructor

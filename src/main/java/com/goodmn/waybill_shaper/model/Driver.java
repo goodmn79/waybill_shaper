@@ -1,25 +1,17 @@
 package com.goodmn.waybill_shaper.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.EMPTY_STRING;
-import static com.goodmn.waybill_shaper.extractor.Constant.POINT;
+import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
+import static com.goodmn.waybill_shaper.constant.Constant.POINT;
 
-@Entity
-@Table(name = "drivers")
 @Data
 @Accessors(chain = true)
 public class Driver {
-    @Transient
     private final String PATTERN = "%s %s %s";
 
-    @Id
     private long id;
     private String lastName;
     private String firstName;

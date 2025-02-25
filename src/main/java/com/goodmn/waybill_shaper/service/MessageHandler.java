@@ -21,7 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.*;
 
 @Service
 @RequiredArgsConstructor

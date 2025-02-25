@@ -9,8 +9,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 public interface Writable {
     void writeData(Workbook workbook);
 
-    default Cell getCell(Workbook workbook, int sheetNum, int rowNum, int columnNum) {
-        Sheet sheet = workbook.getSheetAt(sheetNum);
+    default Cell cell(Workbook workbook, int rowNum, int columnNum) {
+        Sheet sheet = workbook.getSheetAt(0);
         Row row = sheet.getRow(rowNum);
         return row.getCell(columnNum);
     }

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.*;
 
 @Component
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.goodmn.waybill_shaper.extractor;
+package com.goodmn.waybill_shaper.constant;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
