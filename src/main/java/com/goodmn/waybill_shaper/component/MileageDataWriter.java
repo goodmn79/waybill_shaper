@@ -2,7 +2,6 @@ package com.goodmn.waybill_shaper.component;
 
 import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Mileage;
-import com.goodmn.waybill_shaper.model.Number;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -28,6 +27,10 @@ public class MileageDataWriter implements Writable {
         Mileage mileage = extractable.extractData();
         V59.setCellValue(mileage.getMileage());
 
-        log.info("ЗДанные одометра успешно записаны.");
+        if (extractable.isPresent()) {
+            log.info("Данные одометра успешно записаны.");
+        } else {
+            log.warn("Данные одометра отсутствуют.");
+        }
     }
 }

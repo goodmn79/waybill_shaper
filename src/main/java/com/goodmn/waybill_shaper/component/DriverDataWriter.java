@@ -34,6 +34,10 @@ public class DriverDataWriter implements Writable {
         J44.setCellValue(driver.getDl());
         W141.setCellValue(driver.getLastNameAndInitials());
 
-        log.info("Данные о водителе успешно записаны.");
+        if (extractable.isPresent()) {
+            log.info("Данные о водителе успешно записаны.");
+        } else {
+            log.warn("Данные о водителе отсутствуют.");
+        }
     }
 }

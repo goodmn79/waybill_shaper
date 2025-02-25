@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
-
 @Service
 @RequiredArgsConstructor
 public class DriverService {
@@ -32,12 +30,7 @@ public class DriverService {
 
             statusManager.setAbsenceDriverDataFlag();
 
-            return new Driver()
-                    .setLastName(EMPTY_STRING)
-                    .setFirstName(EMPTY_STRING)
-                    .setMidlName(EMPTY_STRING)
-                    .setDl(EMPTY_STRING)
-                    .setSsn(EMPTY_STRING);
+            return Driver.getDefault();
         }
     }
 }

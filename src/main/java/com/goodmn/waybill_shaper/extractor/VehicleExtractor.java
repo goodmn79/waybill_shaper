@@ -4,8 +4,6 @@ import com.goodmn.waybill_shaper.model.Vehicle;
 import com.goodmn.waybill_shaper.service.DataExtractionUtility;
 import com.goodmn.waybill_shaper.service.VehicleService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,37 +18,33 @@ public class VehicleExtractor implements Extractable<Vehicle> {
     private final DataExtractionUtility dataExtractionUtility;
     private final VehicleService vehicleService;
 
-    private final Logger log = LoggerFactory.getLogger(VehicleExtractor.class);
-
     @Override
     public Vehicle extractData() {
-        log.debug("ИЗВЛЕЧЕНИЕ ДАННЫХ О ТРАНСПОРТНОМ СРЕДСТВЕ!");
 
         List<String> orderVehicle = dataExtractionUtility.getOrderElement(VEHICLE_TYPE);
 
         if (orderVehicle.isEmpty()) {
-            return vehicleService.DEFAULT_VEHICLE;
+            return Vehicle.getDefault();
         }
 
         String registrationMarks =
                 formatRegistrationMark(extractRegistrationMark(orderVehicle.get(0)));
 
-        Vehicle vehicle = vehicleService.getByRegistrationMark(registrationMarks);
-        log.debug("РЕГИСТРАЦИОННЫЙ ЗНАК ТС: '{}'", vehicle.getRegistrationMark());
+        return vehicleService.getByRegistrationMark(registrationMarks);
+    }
 
-        return vehicle;
+    @Override
+    public boolean isPresent() {
+        return !this.extractData().equals(Vehicle.getDefault());
     }
 
     private String extractRegistrationMark(String orderData) {
-        log.debug("СТРОКА С ДАННЫМИ О ТРАНСПОРТНОМ СРЕДСТВЕ: '{}'.", orderData);
 
         Pattern pattern = Pattern.compile(REG_MARK_REGEX);
         Matcher matcher = pattern.matcher(orderData);
         if (matcher.find()) {
-            log.debug("ДАННЫЕ О ТРАНСПОРТНОМ СРЕДСТВЕ УСПЕШНО ПОЛУЧЕНЫ.");
             return matcher.group();
         }
-        log.debug("ДАННЫЕ О ТРАНСПОРТНОМ СРЕДСТВЕ ОТСУТСТВУЮТ!");
         return EMPTY_STRING;
     }
 

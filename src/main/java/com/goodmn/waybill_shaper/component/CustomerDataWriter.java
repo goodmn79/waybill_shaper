@@ -36,6 +36,10 @@ public class CustomerDataWriter implements Writable {
         }
         BS44.setCellValue(customer);
 
-        log.info("Данные о заказчике успешно записаны.");
+        if (extractable.isPresent()) {
+            log.info("Данные о заказчике успешно записаны.");
+        } else {
+            log.warn("Данные о заказчике отсутствуют.");
+        }
     }
 }

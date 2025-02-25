@@ -38,6 +38,14 @@ public class Time {
         return getByTimeDifference(endTime).format(TIME_FORMAT);
     }
 
+    public static Time getDefault() {
+        return new Time()
+                .setDepartureTime(EMPTY_STRING)
+                .setStartBreak(EMPTY_STRING)
+                .setEndBreak(EMPTY_STRING)
+                .setArrivalTime(EMPTY_STRING);
+    }
+
     private LocalTime getLocalTime(String time) {
         try {
             return LocalTime.parse(time, TIME_FORMAT);

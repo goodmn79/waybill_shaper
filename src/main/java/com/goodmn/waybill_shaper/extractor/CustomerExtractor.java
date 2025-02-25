@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.goodmn.waybill_shaper.constant.Constant.CUSTOMER;
-import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
 
 @Component
 @RequiredArgsConstructor
@@ -26,8 +25,7 @@ public class CustomerExtractor implements Extractable<Customer> {
 
         List<String> orderCustomer = dataExtractionUtility.getOrderElement(CUSTOMER);
         if (orderCustomer.isEmpty()) {
-            return new Customer()
-                    .setCustomer(EMPTY_STRING);
+            return Customer.getDefault();
         }
 
         String customer = extractCustomerData(orderCustomer.get(0));
@@ -35,6 +33,11 @@ public class CustomerExtractor implements Extractable<Customer> {
         log.debug("ЗАКАЗЧИК: '{}'", customer);
         return new Customer()
                 .setCustomer(customer);
+    }
+
+    @Override
+    public boolean isPresent() {
+        return !this.extractData().equals(Customer.getDefault());
     }
 
     private String extractCustomerData(String orderData) {

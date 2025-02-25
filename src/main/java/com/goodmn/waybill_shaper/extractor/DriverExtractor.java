@@ -17,4 +17,9 @@ public class DriverExtractor implements Extractable<Driver> {
         long driverId = dataExtractionUtility.getUserId();
         return driverService.getDriver(driverId);
     }
+
+    @Override
+    public boolean isPresent() {
+        return !this.extractData().equals(Driver.getDefault());
+    }
 }

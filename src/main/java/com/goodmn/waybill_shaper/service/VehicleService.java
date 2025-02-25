@@ -9,18 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
-
 @Service
 @RequiredArgsConstructor
 public class VehicleService {
     private static final Logger log = LoggerFactory.getLogger(VehicleService.class);
     private final VehicleRepository vehicleRepository;
-
-    public final Vehicle DEFAULT_VEHICLE = new Vehicle()
-            .setRegistrationMark(EMPTY_STRING)
-            .setMark(EMPTY_STRING)
-            .setType(EMPTY_STRING);
 
     public Vehicle getByRegistrationMark(String registrationMark) {
         log.info("Получение данных о транспортном средстве...");
@@ -32,7 +25,7 @@ public class VehicleService {
             return vehicle.get();
         } else {
             log.error("Данные транспортного средства не получены!");
-            return DEFAULT_VEHICLE;
+            return Vehicle.getDefault();
         }
     }
 }

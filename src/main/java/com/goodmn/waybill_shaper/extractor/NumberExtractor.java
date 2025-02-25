@@ -45,6 +45,11 @@ public class NumberExtractor implements Extractable<Number> {
                 .setCouponNumber(couponNumber);
     }
 
+    @Override
+    public boolean isPresent() {
+        return !this.extractData().equals(Number.getDefault());
+    }
+
     private String extractNumber(String orderData) {
         log.debug("СТРОКА С ДАННЫМИ О НОМЕРЕ ЗАКАЗА: '{}'.", orderData);
 

@@ -32,7 +32,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Override
     public int process(List<Update> updates) {
-        log.info("Процесс прослушивания обновлений...");
+        log.info("Получено обновление");
 
         updates.forEach(update -> {
             Message message = update.message();

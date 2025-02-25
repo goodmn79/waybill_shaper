@@ -27,14 +27,18 @@ public class MileageExtractor implements Extractable<Mileage> {
         List<String> orderMileage = dataExtractionUtility.getOrderElement(MILEAGE);
         if (orderMileage.isEmpty()) {
             log.debug("ДАННЫЕ ОДОМЕТРА ОТСУТСТВУЮТ!.");
-            return new Mileage()
-                    .setMileage(EMPTY_STRING);
+            return Mileage.getDefault();
         }
         String mileage = orderMileage.get(0);
         log.debug("ПОЛУЧЕНА СТРОКА С ДАННЫМИ ОДОМЕТРА: {}", mileage);
 
         return new Mileage()
                 .setMileage(extractMileage(mileage));
+    }
+
+    @Override
+    public boolean isPresent() {
+        return !this.extractData().equals(Mileage.getDefault());
     }
 
     private String extractMileage(String input) {

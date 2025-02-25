@@ -28,11 +28,7 @@ public class TimeExtractor implements Extractable<Time> {
         Time time = new Time();
 
         if (orderTime.isEmpty()) {
-            return time
-                    .setDepartureTime(EMPTY_STRING)
-                    .setStartBreak(EMPTY_STRING)
-                    .setEndBreak(EMPTY_STRING)
-                    .setArrivalTime(EMPTY_STRING);
+            return Time.getDefault();
         } else if (orderTime.size() == 2) {
             return time
                     .setDepartureTime(orderTime.get(0))
@@ -46,6 +42,11 @@ public class TimeExtractor implements Extractable<Time> {
                     .setEndBreak(orderTime.get(2))
                     .setArrivalTime(orderTime.get(3));
         }
+    }
+
+    @Override
+    public boolean isPresent() {
+        return !this.extractData().equals(Time.getDefault());
     }
 
     private List<String> extractTime(List<String> orderDataList) {

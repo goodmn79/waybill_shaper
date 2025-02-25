@@ -33,7 +33,10 @@ public class VehicleDataWriter implements Writable {
         I32.setCellValue(vehicle.getMark());
         T36.setCellValue(vehicle.getRegistrationMark());
 
-        log.info("Данные о транспортном средстве успешно записаны.");
-
+        if (extractable.isPresent()) {
+            log.info("Данные о транспортном средстве успешно записаны.");
+        } else {
+            log.warn("Данные о транспортном средстве отсутствуют.");
+        }
     }
 }

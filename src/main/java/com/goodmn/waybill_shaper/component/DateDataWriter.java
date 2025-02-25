@@ -39,6 +39,10 @@ public class DateDataWriter implements Writable {
         M11.setCellValue(textDateFormat);
         Z11.setCellValue(textDateFormat);
 
-        log.info("Данные о дате заказа успешно записаны.");
+        if (extractable.isPresent()) {
+            log.info("Данные о дате заказа успешно записаны.");
+        } else {
+            log.warn("Данные о дате заказа отсутствуют.");
+        }
     }
 }
