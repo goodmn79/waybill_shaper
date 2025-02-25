@@ -40,7 +40,7 @@ public class MessageHandler {
         if (statusManager.isWaitingDataStatus()) {
             return mileageDataRequest(message);
         } else {
-            return sendWaybill(message).caption(caption());
+            return this.sendWaybill(message).caption(caption());
         }
     }
 
@@ -56,11 +56,13 @@ public class MessageHandler {
 
     private SendDocument sendWaybill(Message message) {
         long chatId = message.chat().id();
+        boolean dataIsExists = !extractionUtility.getData().isEmpty();
+        log.info("Результат извлечения данных: \"{}\"", dataIsExists);
 
-        if (!extractionUtility.getData().isEmpty()) {
-            writeWorkbook();
+        if (dataIsExists) {
+            this.writeWorkbook();
         }
-        return new SendDocument(chatId, saveToFile(waybillTemplate));
+        return new SendDocument(chatId, this.saveToFile(waybillTemplate));
     }
 
     @SneakyThrows
