@@ -1,6 +1,7 @@
 package com.goodmn.waybill_shaper.listener;
 
 import com.goodmn.waybill_shaper.service.MessageHandler;
+import com.goodmn.waybill_shaper.service.StatusManager;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Message;
@@ -20,6 +21,7 @@ import static com.goodmn.waybill_shaper.extractor.Constant.FILE_NAME;
 public class TelegramBotUpdatesListener implements UpdatesListener {
     private final TelegramBot telegramBot;
     private final MessageHandler messageHandler;
+    private final StatusManager statusManager;
 
     Logger log = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
 
@@ -36,7 +38,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             Message message = update.message();
             telegramBot.execute(messageHandler.handleMessage(message));
 
-            messageHandler.deleteFile(FILE_NAME);
+            if (!statusManager.isWaitingDataStatus()) {
+                messageHandler.deleteFile(FILE_NAME);
+            }
         });
 
         log.info("Процесс прослушивания обновлений завершен.");
