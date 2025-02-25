@@ -32,7 +32,8 @@ public class VehicleExtractor implements Extractable<Vehicle> {
             return vehicleService.DEFAULT_VEHICLE;
         }
 
-        String registrationMarks = formatRegistrationMark(extractRegistrationMark(orderVehicle.get(0)));
+        String registrationMarks =
+                formatRegistrationMark(extractRegistrationMark(orderVehicle.get(0)));
 
         Vehicle vehicle = vehicleService.getByRegistrationMark(registrationMarks);
         log.debug("РЕГИСТРАЦИОННЫЙ ЗНАК ТС: '{}'", vehicle.getRegistrationMark());
@@ -55,8 +56,10 @@ public class VehicleExtractor implements Extractable<Vehicle> {
 
     private String formatRegistrationMark(String registrationMark) {
         if (registrationMark.matches(WHITE_REG_MARK_REGEX)) {
-            return registrationMark.replaceAll(WHITE_REG_MARK_REGEX, WHITE_REG_MARK_REPLACEMENT).toUpperCase();
+            return registrationMark
+                    .replaceAll(WHITE_REG_MARK_REGEX, WHITE_REG_MARK_REPLACEMENT).toUpperCase();
         }
-        return registrationMark.replaceAll(YALOW_REG_MARK_REGEX, YALOW_REG_MARK_REPLACEMENT).toUpperCase();
+        return registrationMark
+                .replaceAll(YALOW_REG_MARK_REGEX, YALOW_REG_MARK_REPLACEMENT).toUpperCase();
     }
 }

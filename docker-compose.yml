@@ -1,0 +1,37 @@
+services:
+  app:
+      image: ws:v1.0
+      ports:
+        - "8080:8080"
+      env_file:
+        - .env
+      environment:
+        SPRING_DATASOURCE_URL: ${DATASOURCE_URL}
+        SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+        SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+        TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      depends_on:
+        - postgres
+      networks:
+        - app-network
+
+  postgres:
+    image: postgres:latest
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isReady -U $${SPRING_DATASOURCE_USERNAME} -d $${POSTGRES_DB} || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      start_period: 5s
+      retries: 5
+
+networks:
+  app-network:
+    driver: bridge
