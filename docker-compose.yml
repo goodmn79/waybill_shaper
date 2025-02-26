@@ -22,8 +22,11 @@ services:
     env_file:
       - .env
     environment:
+      $POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    volumes:
+      - /var/lib/postgresql/data
     networks:
       - ws-network
     healthcheck:
