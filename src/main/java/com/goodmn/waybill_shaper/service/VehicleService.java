@@ -16,7 +16,7 @@ public class VehicleService {
     private final VehicleRepository vehicleRepository;
 
     public Vehicle getByRegistrationMark(String registrationMark) {
-        log.info("Получение данных о транспортном средстве...");
+        log.info("Получение данных о транспортном средстве с государственным регистрационным знаком: \"{}\"", registrationMark);
 
         Optional<Vehicle> vehicle = vehicleRepository.findByRegistrationMark(registrationMark);
 
