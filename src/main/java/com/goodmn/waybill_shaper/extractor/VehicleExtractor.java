@@ -18,6 +18,8 @@ public class VehicleExtractor implements Extractable<Vehicle> {
     private final DataExtractionUtility dataExtractionUtility;
     private final VehicleService vehicleService;
 
+    private Vehicle vehicle;
+
     @Override
     public Vehicle extractData() {
 
@@ -30,12 +32,14 @@ public class VehicleExtractor implements Extractable<Vehicle> {
         String registrationMarks =
                 formatRegistrationMark(extractRegistrationMark(orderVehicle.get(0)));
 
-        return vehicleService.getByRegistrationMark(registrationMarks);
+        Vehicle vehicle = vehicleService.getByRegistrationMark(registrationMarks);
+        this.vehicle = vehicle;
+        return vehicle;
     }
 
     @Override
     public boolean isPresent() {
-        return !this.extractData().equals(Vehicle.getDefault());
+        return !this.vehicle.equals(Vehicle.getDefault());
     }
 
     private String extractRegistrationMark(String orderData) {

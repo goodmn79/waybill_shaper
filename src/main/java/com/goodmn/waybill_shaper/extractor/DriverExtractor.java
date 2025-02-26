@@ -12,14 +12,18 @@ public class DriverExtractor implements Extractable<Driver> {
     private final DataExtractionUtility dataExtractionUtility;
     private final DriverService driverService;
 
+    private Driver driver;
+
     @Override
     public Driver extractData() {
         long driverId = dataExtractionUtility.getUserId();
-        return driverService.getDriver(driverId);
+        Driver driver = driverService.getDriver(driverId);
+        this.driver = driver;
+        return driver;
     }
 
     @Override
     public boolean isPresent() {
-        return !this.extractData().equals(Driver.getDefault());
+        return !driver.equals(Driver.getDefault());
     }
 }
