@@ -1,6 +1,7 @@
 services:
   app:
       image: ws:v1.0
+      container_name: ws_app
       ports:
         - "8080:8080"
       env_file:
@@ -13,10 +14,11 @@ services:
       depends_on:
         - postgres
       networks:
-        - app-network
+        - ws-network
 
   postgres:
     image: postgres:latest
+    container_name: ws_db
     env_file:
       - .env
     environment:
@@ -24,7 +26,7 @@ services:
       POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     networks:
-      - app-network
+      - ws-network
     healthcheck:
       test: [ "CMD-SHELL", "pg_isReady -U $${SPRING_DATASOURCE_USERNAME} -d $${POSTGRES_DB} || exit 1" ]
       interval: 10s
@@ -33,5 +35,5 @@ services:
       retries: 5
 
 networks:
-  app-network:
+  ws-network:
     driver: bridge
