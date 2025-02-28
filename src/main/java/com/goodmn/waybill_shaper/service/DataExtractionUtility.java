@@ -31,7 +31,7 @@ public class DataExtractionUtility {
 
     public void setData(Message message) {
         if (statusManager.isWaitingDataStatus()) {
-            data.add(MILEAGE + message.text());
+            data.add(MILEAGE.getValue() + message.text());
             statusManager.removeWaitingDataStatus();
         } else {
             this.userId = message.from().id();
