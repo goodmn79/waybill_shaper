@@ -27,10 +27,10 @@ public class DateDataWriter implements Writable {
         Cell M11 = this.cell(workbook, 10, 12);
         Cell Z11 = this.cell(workbook, 10, 25);
 
-        String numericDateFormat =
-                extractable.extractData().getNumericDateFormat();
-        String textDateFormat =
-                extractable.extractData().getTextDateFormat();
+        Date date = extractable.extractData();
+
+        String numericDateFormat = date.getNumericDateFormat();
+        String textDateFormat = date.getTextDateFormat();
 
         AC59.setCellValue(numericDateFormat);
         AP85.setCellValue(numericDateFormat);
@@ -39,7 +39,7 @@ public class DateDataWriter implements Writable {
         M11.setCellValue(textDateFormat);
         Z11.setCellValue(textDateFormat);
 
-        if (extractable.isPresent()) {
+        if (extractable.isPresent(date)) {
             log.info("Данные о дате заказа успешно записаны.");
         } else {
             log.warn("Данные о дате заказа отсутствуют.");

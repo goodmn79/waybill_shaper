@@ -28,7 +28,7 @@ public class NumberDataWriter implements Writable {
         AH6.setCellValue(number.getWaybillNumber());
         BX6.setCellValue(number.getCouponNumber());
 
-        if (extractable.isPresent()) {
+        if (extractable.isPresent(number)) {
             log.info("Данные о номере заказа успешно записаны.");
         } else {
             log.warn("Данные о номере заказа отсутствуют.");

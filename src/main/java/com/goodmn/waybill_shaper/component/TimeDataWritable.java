@@ -48,7 +48,7 @@ public class TimeDataWritable implements Writable {
         H59.setCellValue(time.getStartShiftTime());
         H65.setCellValue(time.getEndShiftTime());
 
-        if (extractable.isPresent()) {
+        if (extractable.isPresent(time)) {
             log.info("Данные о времени заказа успешно записаны.");
         } else {
             log.warn("Данные о времени заказа отсутствуют.");

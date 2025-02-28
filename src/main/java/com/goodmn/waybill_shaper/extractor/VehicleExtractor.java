@@ -11,14 +11,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.goodmn.waybill_shaper.constant.Constant.*;
+import static com.goodmn.waybill_shaper.constant.DataType.VEHICLE_TYPE;
 
 @Component
 @RequiredArgsConstructor
 public class VehicleExtractor implements Extractable<Vehicle> {
     private final DataExtractionUtility dataExtractionUtility;
     private final VehicleService vehicleService;
-
-    private Vehicle vehicle;
 
     @Override
     public Vehicle extractData() {
@@ -32,14 +31,12 @@ public class VehicleExtractor implements Extractable<Vehicle> {
         String registrationMarks =
                 formatRegistrationMark(extractRegistrationMark(orderVehicle.get(0)));
 
-        Vehicle vehicle = vehicleService.getByRegistrationMark(registrationMarks);
-        this.vehicle = vehicle;
-        return vehicle;
+        return vehicleService.getByRegistrationMark(registrationMarks);
     }
 
     @Override
-    public boolean isPresent() {
-        return !this.vehicle.equals(Vehicle.getDefault());
+    public boolean isPresent(Vehicle vehicle) {
+        return !Vehicle.getDefault().equals(vehicle);
     }
 
     private String extractRegistrationMark(String orderData) {

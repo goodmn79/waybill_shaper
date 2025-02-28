@@ -8,10 +8,12 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class CustomerDataWriter implements Writable {
-    private final Extractable<Customer> extractable;
+    private final Extractable<Customer> extractor;
 
     private final Logger log = LoggerFactory.getLogger(CustomerDataWriter.class);
 
@@ -23,20 +25,21 @@ public class CustomerDataWriter implements Writable {
         Cell AK66 = this.cell(workbook, 65, 36);
         Cell BS44 = this.cell(workbook, 43, 70);
 
-        String customer = extractable.extractData()
-                .getCustomer();
+        Customer customer = extractor.extractData();
 
-        String value1 = StringUtils.substringBefore(customer, " ");
+        String customerData = customer.getCustomer();
+
+        String value1 = StringUtils.substringBefore(customerData, " ");
         AK61.setCellValue(value1);
 
-        String value2 = StringUtils.substringAfter(customer, " ");
+        String value2 = StringUtils.substringAfter(customerData, " ");
 
         if (StringUtils.isNotBlank(value2)) {
             AK66.setCellValue(value2);
         }
-        BS44.setCellValue(customer);
+        BS44.setCellValue(customerData);
 
-        if (extractable.isPresent()) {
+        if (extractor.isPresent(customer)) {
             log.info("Данные о заказчике успешно записаны.");
         } else {
             log.warn("Данные о заказчике отсутствуют.");

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
-import static com.goodmn.waybill_shaper.constant.Constant.NUMBER;
+import static com.goodmn.waybill_shaper.constant.DataType.NUMBER;
 
 @Component
 @RequiredArgsConstructor
@@ -39,21 +39,21 @@ public class NumberExtractor implements Extractable<Number> {
             couponNumber = waybillNumber;
         }
 
-        log.debug("НОМЕР ЗАКАЗА: '{}', НОМЕР ТАЛОНА: '{}'", waybillNumber, couponNumber);
+        log.debug("Номер заказа: '{}', номер талона: '{}'", waybillNumber, couponNumber);
         return new Number()
                 .setWaybillNumber(waybillNumber)
                 .setCouponNumber(couponNumber);
     }
 
     @Override
-    public boolean isPresent() {
-        return !this.extractData().equals(Number.getDefault());
+    public boolean isPresent(Number number) {
+        return !Number.getDefault().equals(number);
     }
 
     private String extractNumber(String orderData) {
-        log.debug("СТРОКА С ДАННЫМИ О НОМЕРЕ ЗАКАЗА: '{}'.", orderData);
+        log.debug("Строка с данными о номере заказа: '{}'.", orderData);
 
-        String number = StringUtils.substringAfter(orderData, NUMBER);
+        String number = StringUtils.substringAfter(orderData, NUMBER.getValue());
         if (StringUtils.isBlank(number)) {
             log.debug("Данные о номере заказа не получены!");
             return EMPTY_STRING;

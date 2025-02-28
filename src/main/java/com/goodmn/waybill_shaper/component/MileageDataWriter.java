@@ -27,7 +27,7 @@ public class MileageDataWriter implements Writable {
         Mileage mileage = extractable.extractData();
         V59.setCellValue(mileage.getMileage());
 
-        if (extractable.isPresent()) {
+        if (extractable.isPresent(mileage)) {
             log.info("Данные одометра успешно записаны.");
         } else {
             log.warn("Данные одометра отсутствуют.");

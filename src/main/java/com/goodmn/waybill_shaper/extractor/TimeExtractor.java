@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.goodmn.waybill_shaper.constant.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
+import static com.goodmn.waybill_shaper.constant.Constant.SPACE;
+import static com.goodmn.waybill_shaper.constant.DataType.TIME;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class TimeExtractor implements Extractable<Time> {
         log.debug("Извлечение данных о времени заказа...");
 
         List<String> orderTime = extractTime(dataExtractionUtility.getOrderElement(TIME));
-        log.debug("КОЛИЧЕСТВО ЭЛЕМЕНТОВ СПИСКА ТАЙМИНГОВ: {}", orderTime.size());
+        log.debug("Количество элементов списка данных о времени заказа: {}", orderTime.size());
         Time time = new Time();
 
         if (orderTime.isEmpty()) {
@@ -45,16 +47,16 @@ public class TimeExtractor implements Extractable<Time> {
     }
 
     @Override
-    public boolean isPresent() {
-        return !this.extractData().equals(Time.getDefault());
+    public boolean isPresent(Time time) {
+        return !Time.getDefault().equals(time);
     }
 
     private List<String> extractTime(List<String> orderDataList) {
-        log.debug("СПИСОК С ДАННЫМИ О ВРЕМЕНИ ЗАКАЗА: '{}'.", orderDataList);
+        log.debug("Данные о времени заказа: '{}'.", orderDataList);
 
         List<String> orderTime = orderDataList
                 .stream()
-                .map(t -> t.replaceAll(TIME, SPACE).trim())
+                .map(t -> t.replaceAll(TIME.getValue(), SPACE).trim())
                 .flatMap(t -> Arrays.stream(t.split("-")))
                 .toList();
 

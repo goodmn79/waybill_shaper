@@ -1,8 +1,10 @@
 package com.goodmn.waybill_shaper.service;
 
+import com.goodmn.waybill_shaper.constant.DataType;
 import com.pengrad.telegrambot.model.Message;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -12,7 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.goodmn.waybill_shaper.constant.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
+import static com.goodmn.waybill_shaper.constant.DataType.MILEAGE;
+import static com.goodmn.waybill_shaper.constant.DataType.VEHICLE_TYPE;
 
 @Component
 @Getter
@@ -36,32 +40,40 @@ public class DataExtractionUtility {
             String[] lines = text.split("\\n");
 
             this.data = Arrays.stream(lines)
-                    .filter(s -> !s.contains("---"))
+                    .filter(DataType::isCorrectDataType)
                     .map(this::format)
                     .distinct()
                     .sorted()
                     .collect(Collectors.toList());
-            if (text.contains(VEHICLE_TYPE)) {
+            if (this.isVehicleData(text)) {
                 statusManager.setWaitingDataStatus();
             }
         }
     }
 
-    public List<String> getOrderElement(String matcher) {
+    public List<String> getOrderElement(DataType type) {
         log.debug("Поиск данных для извлечения...");
+
+        boolean notExists = true;
 
         List<String> orderElements = new ArrayList<>();
         for (String s : this.data) {
-            if (s.contains(matcher)) {
-                log.debug("Данные для извлечения успешно получены.");
+            if (s.contains(type.getValue())) {
+                String orderType = StringUtils.substringBefore(s, ":");
+                notExists = false;
+                log.debug("Данные для извлечения: '{}' успешно получены.", orderType);
                 orderElements.add(s);
             }
         }
-        log.debug("Данных не найдено!");
+        if (notExists) log.error("Данных не найдено!");
         return orderElements;
     }
 
     private String format(String text) {
         return text.replaceAll("[\\s\\p{Punct}]+$", EMPTY_STRING).trim();
+    }
+
+    private boolean isVehicleData(String data) {
+        return data.contains(VEHICLE_TYPE.getValue());
     }
 }

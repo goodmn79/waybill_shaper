@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.goodmn.waybill_shaper.constant.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.NUMERIC_DATE_FORMAT;
+import static com.goodmn.waybill_shaper.constant.Constant.TEXT_DATE_FORMAT;
+import static com.goodmn.waybill_shaper.constant.DataType.DATE;
 
 @Component
 @RequiredArgsConstructor
@@ -18,7 +20,6 @@ public class DateExtractor implements Extractable<Date> {
 
     @Override
     public Date extractData() {
-
         List<String> orderDate = dataExtractionUtility.getOrderElement(DATE);
 
         if (orderDate.size() > 1) {
@@ -35,13 +36,13 @@ public class DateExtractor implements Extractable<Date> {
     }
 
     @Override
-    public boolean isPresent() {
-        return !this.extractData().equals(Date.getDefault());
+    public boolean isPresent(Date date) {
+        return !Date.getDefault().equals(date);
     }
 
     private String extractDate(String orderData) {
 
-        return StringUtils.substringAfter(orderData, DATE);
+        return StringUtils.substringAfter(orderData, DATE.getValue());
     }
 
     private LocalDate getLocalDate(String orderData) {

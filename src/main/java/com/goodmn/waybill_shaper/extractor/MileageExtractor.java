@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
-import static com.goodmn.waybill_shaper.constant.Constant.MILEAGE;
+import static com.goodmn.waybill_shaper.constant.DataType.MILEAGE;
 
 @Component
 @RequiredArgsConstructor
@@ -22,33 +22,33 @@ public class MileageExtractor implements Extractable<Mileage> {
 
     @Override
     public Mileage extractData() {
-        log.debug("ИЗВЛЕЧЕНИЕ ДАННЫХ ОДОМЕТРА.");
+        log.debug("Извлечение данных одометра.");
 
         List<String> orderMileage = dataExtractionUtility.getOrderElement(MILEAGE);
+
         if (orderMileage.isEmpty()) {
-            log.debug("ДАННЫЕ ОДОМЕТРА ОТСУТСТВУЮТ!.");
+            log.debug("Данные одометра отсутствуют!.");
             return Mileage.getDefault();
         }
         String mileage = orderMileage.get(0);
-        log.debug("ПОЛУЧЕНА СТРОКА С ДАННЫМИ ОДОМЕТРА: {}", mileage);
+        log.debug("Получена строка с данными одометра: {}", mileage);
 
         return new Mileage()
                 .setMileage(extractMileage(mileage));
     }
 
     @Override
-    public boolean isPresent() {
-        return !this.extractData().equals(Mileage.getDefault());
+    public boolean isPresent(Mileage mileage) {
+        return !Mileage.getDefault().equals(mileage);
     }
 
     private String extractMileage(String input) {
-        String mileage = StringUtils.substringAfter(input, MILEAGE);
+        String mileage = StringUtils.substringAfter(input, MILEAGE.getValue());
 
         boolean isMileage = StringUtils.isNumeric(mileage);
-        log.debug("В СТРОКЕ СОДЕРЖАТЬСЯ ДАННЫЕ ОДОМЕТРА: '{}'", isMileage);
 
         if (isMileage) {
-            log.debug("ПОЛУЧЕНЫ ДАННЫЕ ОДОМЕТРА: {}", mileage);
+            log.debug("Получены данные одометра: {}", mileage);
             return mileage;
         }
         return EMPTY_STRING;
