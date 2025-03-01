@@ -7,8 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.EMPTY_STRING;
-import static com.goodmn.waybill_shaper.extractor.Constant.TIME_FORMAT;
+import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
+import static com.goodmn.waybill_shaper.constant.Constant.TIME_FORMAT;
 
 @Data
 @Accessors(chain = true)
@@ -36,6 +36,14 @@ public class Time {
             return EMPTY_STRING;
         }
         return getByTimeDifference(endTime).format(TIME_FORMAT);
+    }
+
+    public static Time getDefault() {
+        return new Time()
+                .setDepartureTime(EMPTY_STRING)
+                .setStartBreak(EMPTY_STRING)
+                .setEndBreak(EMPTY_STRING)
+                .setArrivalTime(EMPTY_STRING);
     }
 
     private LocalTime getLocalTime(String time) {

@@ -1,8 +1,7 @@
 package com.goodmn.waybill_shaper.extractor;
 
 import com.goodmn.waybill_shaper.model.Number;
-import com.goodmn.waybill_shaper.service.MessageHandler;
-import com.pengrad.telegrambot.model.Message;
+import com.goodmn.waybill_shaper.service.DataExtractionUtility;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -11,20 +10,21 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
+import static com.goodmn.waybill_shaper.constant.DataType.NUMBER;
 
 @Component
 @RequiredArgsConstructor
 public class NumberExtractor implements Extractable<Number> {
-    private final MessageHandler messageHandler;
+    private final DataExtractionUtility dataExtractionUtility;
 
     private final Logger log = LoggerFactory.getLogger(NumberExtractor.class);
 
     @Override
-    public Number extractData(Message message) {
+    public Number extractData() {
         log.debug("Извлечение данных о номере заказа...");
 
-        List<String> orderNumber = messageHandler.getOrderElement(message, NUMBER);
+        List<String> orderNumber = dataExtractionUtility.getOrderElement(NUMBER);
 
         String waybillNumber;
         String couponNumber;
@@ -39,16 +39,21 @@ public class NumberExtractor implements Extractable<Number> {
             couponNumber = waybillNumber;
         }
 
-        log.debug("НОМЕР ЗАКАЗА: '{}', НОМЕР ТАЛОНА: '{}'", waybillNumber, couponNumber);
+        log.debug("Номер заказа: '{}', номер талона: '{}'", waybillNumber, couponNumber);
         return new Number()
                 .setWaybillNumber(waybillNumber)
                 .setCouponNumber(couponNumber);
     }
 
-    private String extractNumber(String orderData) {
-        log.debug("СТРОКА С ДАННЫМИ О НОМЕРЕ ЗАКАЗА: '{}'.", orderData);
+    @Override
+    public boolean isPresent(Number number) {
+        return !Number.getDefault().equals(number);
+    }
 
-        String number = StringUtils.substringAfter(orderData, NUMBER);
+    private String extractNumber(String orderData) {
+        log.debug("Строка с данными о номере заказа: '{}'.", orderData);
+
+        String number = StringUtils.substringAfter(orderData, NUMBER.getValue());
         if (StringUtils.isBlank(number)) {
             log.debug("Данные о номере заказа не получены!");
             return EMPTY_STRING;

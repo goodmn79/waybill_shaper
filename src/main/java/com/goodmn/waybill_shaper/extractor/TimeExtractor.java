@@ -1,8 +1,7 @@
 package com.goodmn.waybill_shaper.extractor;
 
 import com.goodmn.waybill_shaper.model.Time;
-import com.goodmn.waybill_shaper.service.MessageHandler;
-import com.pengrad.telegrambot.model.Message;
+import com.goodmn.waybill_shaper.service.DataExtractionUtility;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,30 +10,27 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
+import static com.goodmn.waybill_shaper.constant.Constant.SPACE;
+import static com.goodmn.waybill_shaper.constant.DataType.TIME;
 
 @Component
 @RequiredArgsConstructor
 public class TimeExtractor implements Extractable<Time> {
-    private final MessageHandler messageHandler;
+    private final DataExtractionUtility dataExtractionUtility;
 
     private final Logger log = LoggerFactory.getLogger(TimeExtractor.class);
 
     @Override
-    public Time extractData(Message message) {
+    public Time extractData() {
         log.debug("Извлечение данных о времени заказа...");
 
-        List<String> orderData = messageHandler.getOrderElement(message, TIME);
-        List<String> orderTime = extractTime(orderData);
-        log.debug("КОЛИЧЕСТВО ЭЛЕМЕНТОВ СПИСКА ТАЙМИНГОВ: {}", orderTime.size());
+        List<String> orderTime = extractTime(dataExtractionUtility.getOrderElement(TIME));
+        log.debug("Количество элементов списка данных о времени заказа: {}", orderTime.size());
         Time time = new Time();
 
         if (orderTime.isEmpty()) {
-            return time
-                    .setDepartureTime(EMPTY_STRING)
-                    .setStartBreak(EMPTY_STRING)
-                    .setEndBreak(EMPTY_STRING)
-                    .setArrivalTime(EMPTY_STRING);
+            return Time.getDefault();
         } else if (orderTime.size() == 2) {
             return time
                     .setDepartureTime(orderTime.get(0))
@@ -50,13 +46,18 @@ public class TimeExtractor implements Extractable<Time> {
         }
     }
 
+    @Override
+    public boolean isPresent(Time time) {
+        return !Time.getDefault().equals(time);
+    }
+
     private List<String> extractTime(List<String> orderDataList) {
-        log.debug("СПИСОК С ДАННЫМИ О ВРЕМЕНИ ЗАКАЗА: '{}'.", orderDataList);
+        log.debug("Данные о времени заказа: '{}'.", orderDataList);
 
         List<String> orderTime = orderDataList
                 .stream()
-                .map(t -> t.replaceAll(TIME, SPACE).trim())
-                .flatMap(t-> Arrays.stream(t.split("-")))
+                .map(t -> t.replaceAll(TIME.getValue(), SPACE).trim())
+                .flatMap(t -> Arrays.stream(t.split("-")))
                 .toList();
 
         if (orderTime.isEmpty()) {

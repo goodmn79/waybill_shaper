@@ -2,14 +2,16 @@ package com.goodmn.waybill_shaper.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.apache.commons.lang3.StringUtils;
+
+import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
 
 @Data
 @Accessors(chain = true)
 public class Mileage {
     private String mileage;
 
-    public static boolean isMileage(String input) {
-        return StringUtils.isNumeric(input);
+    public static Mileage getDefault() {
+        return new Mileage()
+                .setMileage(EMPTY_STRING);
     }
 }

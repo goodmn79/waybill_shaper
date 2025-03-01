@@ -1,64 +1,56 @@
 package com.goodmn.waybill_shaper.extractor;
 
 import com.goodmn.waybill_shaper.model.Date;
-import com.goodmn.waybill_shaper.service.MessageHandler;
-import com.pengrad.telegrambot.model.Message;
+import com.goodmn.waybill_shaper.service.DataExtractionUtility;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.goodmn.waybill_shaper.extractor.Constant.*;
+import static com.goodmn.waybill_shaper.constant.Constant.NUMERIC_DATE_FORMAT;
+import static com.goodmn.waybill_shaper.constant.Constant.TEXT_DATE_FORMAT;
+import static com.goodmn.waybill_shaper.constant.DataType.DATE;
 
 @Component
 @RequiredArgsConstructor
 public class DateExtractor implements Extractable<Date> {
-    private final MessageHandler messageHandler;
-
-    private final Logger log = LoggerFactory.getLogger(DateExtractor.class);
+    private final DataExtractionUtility dataExtractionUtility;
 
     @Override
-    public Date extractData(Message message) {
-        log.debug("Извлечение данных о дате заказа...");
+    public Date extractData() {
+        List<String> orderDate = dataExtractionUtility.getOrderElement(DATE);
 
-        List<String> orderDate = messageHandler.getOrderElement(message, DATE);
-
-        String numericDateFormat;
-        String textDateFormat;
         if (orderDate.size() > 1) {
-            numericDateFormat = getNumericDateFormat(orderDate.get(0));
-            textDateFormat = getTextDateFormat(orderDate.get(1));
+            return new Date()
+                    .setNumericDateFormat(getNumericDateFormat(orderDate.get(0)))
+                    .setTextDateFormat(getTextDateFormat(orderDate.get(1)));
         } else if (orderDate.size() == 1) {
-            numericDateFormat = getNumericDateFormat(orderDate.get(0));
-            textDateFormat = getTextDateFormat(orderDate.get(0));
+            return new Date()
+                    .setNumericDateFormat(getNumericDateFormat(orderDate.get(0)))
+                    .setTextDateFormat(getTextDateFormat(orderDate.get(0)));
         } else {
-            numericDateFormat = getNumericDateFormat(EMPTY_STRING);
-            textDateFormat = getTextDateFormat(EMPTY_STRING);
+            return Date.getDefault();
         }
+    }
 
-        log.debug("СОКРАЩЕННЫЙ ФОРМАТ ДАТЫ: '{}', ПОЛНЫЙ ФОРМАТ ДАТЫ: '{}'", numericDateFormat, textDateFormat);
-        return new Date()
-                .setNumericDateFormat(numericDateFormat)
-                .setTextDateFormat(textDateFormat);
+    @Override
+    public boolean isPresent(Date date) {
+        return !Date.getDefault().equals(date);
     }
 
     private String extractDate(String orderData) {
-        log.debug("СТРОКА С ДАННЫМИ О ДАТЕ ЗАКАЗА: '{}'.", orderData);
 
-        return StringUtils.substringAfter(orderData, DATE);
+        return StringUtils.substringAfter(orderData, DATE.getValue());
     }
 
     private LocalDate getLocalDate(String orderData) {
         String date = extractDate(orderData);
+
         if (StringUtils.isBlank(date)) {
-            log.debug("Данные о дате заказа не получены! Будет установлена текущая дата!");
             return LocalDate.now();
         }
-        log.debug("Данные о дате заказа получены успешно.");
         return LocalDate.parse(date, NUMERIC_DATE_FORMAT);
     }
 

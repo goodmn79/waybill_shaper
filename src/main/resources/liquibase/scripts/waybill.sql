@@ -1,15 +1,20 @@
 --liquibase formatted sql
 
 --changeset goodmn:1
-create table vehicles
+create table drivers
 (
-    id                int primary key,
-    registration_mark varchar(10) unique,
-    mark              varchar(50) not null,
-    type             varchar(50) not null
+    id         serial primary key,
+    last_name  varchar(50) unique not null,
+    first_name varchar(50) unique not null,
+    midl_name  varchar(50) unique not null,
+    DL         varchar(70) unique not null,
+    SSN        varchar(15) unique not null
 );
 
---changeset goodmn:2
-insert into vehicles (id, registration_mark, mark, type)
-values (1, 'РТ 673 77', 'Yutong ZK6128H', 'Автобус'),
-       (2, 'РТ 708 77', 'Yutong ZK6122H9', 'Автобус');
+create table vehicles
+(
+    id                serial primary key,
+    registration_mark varchar(10) unique,
+    mark              varchar(50) not null,
+    type              varchar(50) not null
+);
