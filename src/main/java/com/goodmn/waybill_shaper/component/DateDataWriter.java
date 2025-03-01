@@ -3,6 +3,7 @@ package com.goodmn.waybill_shaper.component;
 import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Date;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
@@ -10,11 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
+@Setter
 @RequiredArgsConstructor
-public class DateDataWriter implements Writable {
-    private final Extractable<Date> extractable;
+public class DateDataWriter implements Writeable {
+    private final Extractable<Date> extractor;
 
     private final Logger log = LoggerFactory.getLogger(DateDataWriter.class);
+
+    private Writeable next;
 
     @Override
     public void writeData(Workbook workbook) {
@@ -27,7 +31,7 @@ public class DateDataWriter implements Writable {
         Cell M11 = this.cell(workbook, 10, 12);
         Cell Z11 = this.cell(workbook, 10, 25);
 
-        Date date = extractable.extractData();
+        Date date = extractor.extractData();
 
         String numericDateFormat = date.getNumericDateFormat();
         String textDateFormat = date.getTextDateFormat();
@@ -38,11 +42,10 @@ public class DateDataWriter implements Writable {
         BR10.setCellValue(textDateFormat);
         M11.setCellValue(textDateFormat);
         Z11.setCellValue(textDateFormat);
+        log.info("Данные о дате заказа успешно записаны.");
 
-        if (extractable.isPresent(date)) {
-            log.info("Данные о дате заказа успешно записаны.");
-        } else {
-            log.warn("Данные о дате заказа отсутствуют.");
+        if (this.next != null) {
+            this.next.writeData(workbook);
         }
     }
 }

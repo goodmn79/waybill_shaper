@@ -3,18 +3,28 @@ package com.goodmn.waybill_shaper.component;
 import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Driver;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
+@Primary
+@Order(0)
+@Setter
+@ToString
 @RequiredArgsConstructor
-public class DriverDataWriter implements Writable {
-    private final Extractable<Driver> extractable;
+public class DriverDataWriter implements Writeable {
+    private final Extractable<Driver> extractor;
 
     private final Logger log = LoggerFactory.getLogger(DriverDataWriter.class);
+
+    private Writeable next;
 
     @Override
     public void writeData(Workbook workbook) {
@@ -26,18 +36,17 @@ public class DriverDataWriter implements Writable {
         Cell J44 = this.cell(workbook, 43, 9);
         Cell W141 = this.cell(workbook, 140, 22);
 
-        Driver driver = extractable.extractData();
+        Driver driver = extractor.extractData();
 
         AH40.setCellValue(driver.getSsn());
         AT141.setCellValue(driver.getLastNameAndInitials());
         F40.setCellValue(driver.getFullName());
         J44.setCellValue(driver.getDl());
         W141.setCellValue(driver.getLastNameAndInitials());
+        log.info("Данные о водителе успешно записаны.");
 
-        if (extractable.isPresent(driver)) {
-            log.info("Данные о водителе успешно записаны.");
-        } else {
-            log.warn("Данные о водителе отсутствуют.");
+        if (this.next != null) {
+            this.next.writeData(workbook);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.goodmn.waybill_shaper.component;
 import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Time;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
@@ -10,11 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
+@Setter
 @RequiredArgsConstructor
-public class TimeDataWritable implements Writable {
-    private final Extractable<Time> extractable;
+public class TimeDataWriteable implements Writeable {
+    private final Extractable<Time> extractor;
 
-    private final Logger log = LoggerFactory.getLogger(TimeDataWritable.class);
+    private final Logger log = LoggerFactory.getLogger(TimeDataWriteable.class);
+
+    private Writeable next;
 
     @Override
     public void writeData(Workbook workbook) {
@@ -31,7 +35,7 @@ public class TimeDataWritable implements Writable {
         Cell H59 = this.cell(workbook, 58, 7);
         Cell H65 = this.cell(workbook, 64, 7);
 
-        Time time = extractable.extractData();
+        Time time = extractor.extractData();
 
         AS61.setCellValue(time.getDepartureTime());
         if (time.containsBreak()) {
@@ -47,11 +51,10 @@ public class TimeDataWritable implements Writable {
         BX229.setCellValue(time.getEndBreak());
         H59.setCellValue(time.getStartShiftTime());
         H65.setCellValue(time.getEndShiftTime());
+        log.info("Данные о времени заказа успешно записаны.");
 
-        if (extractable.isPresent(time)) {
-            log.info("Данные о времени заказа успешно записаны.");
-        } else {
-            log.warn("Данные о времени заказа отсутствуют.");
+        if (this.next != null) {
+            this.next.writeData(workbook);
         }
     }
 }

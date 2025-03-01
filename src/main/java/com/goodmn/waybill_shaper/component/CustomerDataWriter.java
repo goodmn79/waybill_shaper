@@ -3,6 +3,7 @@ package com.goodmn.waybill_shaper.component;
 import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Customer;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -11,11 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
+@Setter
 @RequiredArgsConstructor
-public class CustomerDataWriter implements Writable {
+public class CustomerDataWriter implements Writeable {
     private final Extractable<Customer> extractor;
 
     private final Logger log = LoggerFactory.getLogger(CustomerDataWriter.class);
+
+    private Writeable next;
 
     @Override
     public void writeData(Workbook workbook) {
@@ -28,21 +32,16 @@ public class CustomerDataWriter implements Writable {
         Customer customer = extractor.extractData();
 
         String customerData = customer.getCustomer();
-
         String value1 = StringUtils.substringBefore(customerData, " ");
-        AK61.setCellValue(value1);
-
         String value2 = StringUtils.substringAfter(customerData, " ");
 
-        if (StringUtils.isNotBlank(value2)) {
-            AK66.setCellValue(value2);
-        }
+        AK61.setCellValue(value1);
+        AK66.setCellValue(value2);
         BS44.setCellValue(customerData);
+        log.info("Данные о заказчике успешно записаны.");
 
-        if (extractor.isPresent(customer)) {
-            log.info("Данные о заказчике успешно записаны.");
-        } else {
-            log.warn("Данные о заказчике отсутствуют.");
+        if (this.next != null) {
+            this.next.writeData(workbook);
         }
     }
 }

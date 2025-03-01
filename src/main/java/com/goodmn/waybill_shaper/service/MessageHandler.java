@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.service;
 
-import com.goodmn.waybill_shaper.component.Writable;
+import com.goodmn.waybill_shaper.component.Writeable;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
@@ -19,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Set;
 
 import static com.goodmn.waybill_shaper.constant.Constant.*;
 
@@ -30,7 +29,7 @@ public class MessageHandler {
     private final DataExtractionUtility extractionUtility;
     private final StatusManager statusManager;
 
-    private final Set<Writable> writable;
+    private final Writeable writeable;
 
     private final Logger log = LoggerFactory.getLogger(MessageHandler.class);
 
@@ -56,12 +55,7 @@ public class MessageHandler {
 
     private SendDocument sendWaybill(Message message) {
         long chatId = message.chat().id();
-        boolean dataIsExists = !extractionUtility.getData().isEmpty();
-        log.info("Результат извлечения данных: \"{}\"", dataIsExists);
-
-        if (dataIsExists) {
-            this.writeWorkbook();
-        }
+        writeable.writeData(waybillTemplate);
         return new SendDocument(chatId, this.saveToFile(waybillTemplate));
     }
 
@@ -72,12 +66,6 @@ public class MessageHandler {
         if (Files.exists(path)) {
             Files.delete(path);
             log.info("Файл был успешно удалён.");
-        }
-    }
-
-    private void writeWorkbook() {
-        for (Writable cell : writable) {
-            cell.writeData(waybillTemplate);
         }
     }
 
