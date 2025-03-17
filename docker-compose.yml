@@ -4,38 +4,7 @@ services:
       container_name: ws_app
       ports:
         - "8080:8080"
-      env_file:
-        - .env
+      volumes:
+        - ./data:/app/data
       environment:
-        SPRING_DATASOURCE_URL: ${DATASOURCE_URL}
-        SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-        SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-        TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
-      depends_on:
-        - postgres
-      networks:
-        - ws-network
-
-  postgres:
-    image: postgres:latest
-    container_name: ws_db
-    env_file:
-      - .env
-    environment:
-      $POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
-      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-    volumes:
-      - /var/lib/postgresql/data
-    networks:
-      - ws-network
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $SPRING_DATASOURCE_USERNAME -d $POSTGRES_DB || exit 1" ]
-      interval: 10s
-      timeout: 5s
-      start_period: 5s
-      retries: 5
-
-networks:
-  ws-network:
-    driver: bridge
+        - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/data/waybill_shaper.db
