@@ -1,9 +1,6 @@
 package com.goodmn.waybill_shaper.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +9,7 @@ import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
 import static com.goodmn.waybill_shaper.constant.Constant.POINT;
 
 @Entity
-@Table(name = "drivers")
+@Table(name = "DRIVERS", schema = "PUBLIC")
 @Data
 @Accessors(chain = true)
 public class Driver {
@@ -20,11 +17,17 @@ public class Driver {
     private final String PATTERN = "%s %s %s";
 
     @Id
+    @Column(name = "ID")
     private long id;
+    @Column(name = "LAST_NAME")
     private String lastName;
+    @Column(name = "FIRST_NAME")
     private String firstName;
+    @Column(name = "MIDL_NAME")
     private String midlName;
+    @Column(name = "DL")
     private String dl;
+    @Column(name = "SSN")
     private String ssn;
 
     public String getFullName() {

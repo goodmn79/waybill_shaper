@@ -33,9 +33,10 @@ build/
 .vscode/
 /mvnw
 /mvnw.cmd
-/db/waybill.mv.db
-/db/waybill.trace.db
 /src/main/resources/template/waybill_template.xlsm
 /src/main/resources/template/waybill_template-dev.xlsm
 /src/main/resources/application-dev.properties
 /.env
+/db/ws-db.mv.db
+/db/ws-db.trace.db
+/src/main/resources/liquibase/scripts/init_data.sql

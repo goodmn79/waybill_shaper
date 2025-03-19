@@ -1,20 +1,20 @@
 --liquibase formatted sql
 
 --changeset goodmn:1
-create table drivers
+CREATE TABLE IF NOT EXISTS DRIVERS
 (
-    id         serial primary key,
-    last_name  varchar(50) unique not null,
-    first_name varchar(50) unique not null,
-    midl_name  varchar(50) unique not null,
+    ID         bigint primary key,
+    LAST_NAME  varchar(50) unique not null,
+    FIRST_NAME varchar(50) unique not null,
+    MIDL_NAME  varchar(50) unique not null,
     DL         varchar(70) unique not null,
     SSN        varchar(15) unique not null
 );
 
-create table vehicles
+CREATE TABLE IF NOT EXISTS VEHICLES
 (
-    id                serial primary key,
-    registration_mark varchar(10) unique,
-    mark              varchar(50) not null,
-    type              varchar(50) not null
+    ID                bigint primary key,
+    REGISTRATION_MARK varchar(10) unique,
+    MARK              varchar(50) not null,
+    TYPE              varchar(50) not null
 );
