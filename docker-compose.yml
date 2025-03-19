@@ -1,10 +1,13 @@
 services:
   app:
-      image: ws:v1.0
+      image: ws:v2.0
       container_name: ws_app
       ports:
         - "8080:8080"
       volumes:
-        - ./data:/app/data
+        - ./db:/app/db
       environment:
-        - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/data/waybill_shaper.db
+        - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+        - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+        - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+        - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
