@@ -3,8 +3,7 @@ package com.goodmn.waybill_shaper.extractor;
 import com.goodmn.waybill_shaper.model.Time;
 import com.goodmn.waybill_shaper.service.DataExtractionUtility;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -14,12 +13,11 @@ import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
 import static com.goodmn.waybill_shaper.constant.Constant.SPACE;
 import static com.goodmn.waybill_shaper.constant.DataType.TIME;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TimeExtractor implements Extractable<Time> {
     private final DataExtractionUtility dataExtractionUtility;
-
-    private final Logger log = LoggerFactory.getLogger(TimeExtractor.class);
 
     @Override
     public Time extractData() {

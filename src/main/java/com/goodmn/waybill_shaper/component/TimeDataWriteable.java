@@ -4,19 +4,17 @@ import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Time;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @Setter
 @RequiredArgsConstructor
 public class TimeDataWriteable implements Writeable {
     private final Extractable<Time> extractor;
-
-    private final Logger log = LoggerFactory.getLogger(TimeDataWriteable.class);
 
     private Writeable next;
 
@@ -39,8 +37,8 @@ public class TimeDataWriteable implements Writeable {
 
         AS61.setCellValue(time.getDepartureTime());
         if (time.containsBreak()) {
-            AS66.setCellValue(time.getDepartureTime());
-            AX61.setCellValue(time.getDepartureTime());
+            AS66.setCellValue(time.getStartBreak());
+            AX61.setCellValue(time.getEndBreak());
             AX66.setCellValue(time.getArrivalTime());
         } else {
             AX61.setCellValue(time.getArrivalTime());

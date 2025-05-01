@@ -4,9 +4,8 @@ import com.goodmn.waybill_shaper.constant.DataType;
 import com.pengrad.telegrambot.model.Message;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import static com.goodmn.waybill_shaper.constant.Constant.EMPTY_STRING;
 import static com.goodmn.waybill_shaper.constant.DataType.MILEAGE;
 import static com.goodmn.waybill_shaper.constant.DataType.VEHICLE_TYPE;
 
+@Slf4j
 @Component
 @Getter
 @RequiredArgsConstructor
@@ -25,9 +25,7 @@ public class DataExtractionUtility {
     private final StatusManager statusManager;
 
     private long userId;
-    private List<String> data;
-
-    private final Logger log = LoggerFactory.getLogger(DataExtractionUtility.class);
+    private List<String> data = new ArrayList<>();
 
     public void setData(Message message) {
         if (statusManager.isWaitingDataStatus()) {
