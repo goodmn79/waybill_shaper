@@ -13,10 +13,10 @@ import static com.goodmn.waybill_shaper.constant.Constant.TIME_FORMAT;
 @Data
 @Accessors(chain = true)
 public class Time {
-    private String departureTime;
-    private String startBreak;
-    private String endBreak;
-    private String arrivalTime;
+    private String departureTime = EMPTY_STRING;
+    private String startBreak = EMPTY_STRING;
+    private String endBreak = EMPTY_STRING;
+    private String arrivalTime = EMPTY_STRING;
 
     public boolean containsBreak() {
         return StringUtils.isNotEmpty(startBreak) && StringUtils.isNotEmpty(endBreak);
