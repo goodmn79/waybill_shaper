@@ -1,6 +1,6 @@
 services:
   app:
-      image: ws:v2.0
+      image: ws_v2.0
       container_name: ws_app
       ports:
         - "8080:8080"
