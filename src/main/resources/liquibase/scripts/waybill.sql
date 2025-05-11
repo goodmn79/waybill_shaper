@@ -18,3 +18,7 @@ CREATE TABLE IF NOT EXISTS VEHICLES
     MARK              varchar(50) not null,
     TYPE              varchar(50) not null
 );
+
+INSERT INTO PUBLIC.DRIVERS (ID, LAST_NAME, FIRST_NAME, MIDL_NAME, DL, SSN) VALUES (1848535798, 'Виноградов', 'Евгений', 'Александрович', '9934 998840 выдано: 05.06.2024 г. категории: A, B, C, D, E', '027-429-672 68');
+
+INSERT INTO PUBLIC.VEHICLES (ID, REGISTRATION_MARK, MARK, TYPE) VALUES (1, 'РТ 673 77', 'Yutong ZK6128H', 'Автобус');
