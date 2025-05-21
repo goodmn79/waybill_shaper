@@ -1,6 +1,7 @@
 package com.goodmn.waybill_shaper.cleaner;
 
 import com.goodmn.waybill_shaper.executor.TelegramBotExecutor;
+import com.goodmn.waybill_shaper.storage.MessageStorage;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.DeleteMessage;
 import com.pengrad.telegrambot.response.SendResponse;

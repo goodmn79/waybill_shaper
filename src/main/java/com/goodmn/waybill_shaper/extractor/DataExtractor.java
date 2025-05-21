@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class DateExtractor implements Extractor<String> {
+public class DataExtractor implements Extractor<String> {
     @Override
     public String extract(String messageText) {
-        return StringUtils.substringAfter(messageText, " ");
+        return StringUtils.substringAfter(messageText, "|");
     }
 }

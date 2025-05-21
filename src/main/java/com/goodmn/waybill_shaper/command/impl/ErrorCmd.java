@@ -7,6 +7,7 @@ import com.goodmn.waybill_shaper.cleaner.ChatCleaner;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import static com.goodmn.waybill_shaper.constant.Constant.INFO;
 
 @Slf4j
 @Component(ERROR_CMD)
+@EqualsAndHashCode
 @RequiredArgsConstructor
 public class ErrorCmd implements Command {
     private final TelegramBotExecutor executor;

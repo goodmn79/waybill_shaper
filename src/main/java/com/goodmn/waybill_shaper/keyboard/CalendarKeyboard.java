@@ -51,7 +51,7 @@ public class CalendarKeyboard {
                     if (selectedDate.equals(TODAY)) {
                         buttonText = "\uD83D\uDFE2";
                     }
-                    String callbackData = selectedDate.isBefore(TODAY) ? IGNORE_CMD : DATE_CMD + date;
+                    String callbackData = selectedDate.isBefore(TODAY) ? IGNORE_CMD : SET_DATE_CMD + date;
                     row[j] = new InlineKeyboardButton(buttonText).callbackData(callbackData);
                     day++;
                 }

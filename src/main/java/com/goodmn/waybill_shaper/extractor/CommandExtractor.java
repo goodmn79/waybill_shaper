@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+import static com.goodmn.waybill_shaper.constant.Cmd.ERROR_CMD;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -16,26 +18,27 @@ public class CommandExtractor implements Extractor<Command> {
 
     @Override
     public Command extract(String text) {
-        log.info("CommandS: {}", commands);
-
         log.warn("Extracting command");
         String stringCmd;
         if (text.startsWith("/")) {
             stringCmd = StringUtils.substringAfter(text, "/");
         } else {
-            stringCmd = StringUtils.substringBefore(text, " ");
+            String separator = StringUtils.substringAfter(text, "|");
+            if (StringUtils.isBlank(separator)) {
+                stringCmd = text;
+            } else {
+                stringCmd = StringUtils.substringBefore(text, separator);
+            }
         }
-
-        log.warn("Extracting command: {}", stringCmd);
 
         Command command = commands.get(stringCmd);
 
         if (command != null) {
-            log.info("Command successfully extracted");
+            log.info("Command '{}' successfully extracted", stringCmd);
             return command;
         } else {
-            log.error("Command not found");
-            return commands.get("error");
+            log.error("Command '{}' not found", stringCmd);
+            return commands.get(ERROR_CMD);
         }
     }
 }

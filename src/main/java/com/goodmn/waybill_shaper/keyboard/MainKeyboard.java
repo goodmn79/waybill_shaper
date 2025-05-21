@@ -21,7 +21,7 @@ public class MainKeyboard {
                 new InlineKeyboardButton[]{new InlineKeyboardButton(date).callbackData(SELECT_DATE_CMD + date)},
                 new InlineKeyboardButton[]{new InlineKeyboardButton(customer).callbackData(CUSTOMER_CMD)},
                 new InlineKeyboardButton[]{new InlineKeyboardButton(vehicle).callbackData(VEHICLE_CMD)},
-                new InlineKeyboardButton[]{new InlineKeyboardButton(mileage).callbackData(MILEAGE_CMD)},
+                new InlineKeyboardButton[]{new InlineKeyboardButton(mileage).callbackData(INPUT_MILEAGE_CMD)},
                 new InlineKeyboardButton[]{new InlineKeyboardButton(GENERATE_WAYBILL).callbackData(GENERATE_WAYBILL_CMD)}
         );
     }

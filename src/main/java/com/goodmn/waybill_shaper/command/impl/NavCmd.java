@@ -7,6 +7,7 @@ import com.goodmn.waybill_shaper.cleaner.ChatCleaner;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import static com.goodmn.waybill_shaper.constant.Cmd.NAV_CMD;
 import static com.goodmn.waybill_shaper.constant.Constant.SELECT_DATE;
 
 @Component(NAV_CMD)
+@EqualsAndHashCode
 @RequiredArgsConstructor
 public class NavCmd implements Command {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy M");

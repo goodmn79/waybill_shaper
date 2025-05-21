@@ -3,6 +3,7 @@ package com.goodmn.waybill_shaper.storage;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.goodmn.waybill_shaper.constant.ButtonName.*;
@@ -13,12 +14,11 @@ public class DataStorage {
 
     @PostConstruct
     private void init() {
-        data = Map.of(
-                DATE, "",
-                CUSTOMER, "",
-                VEHICLE, "",
-                MILEAGE, ""
-        );
+        data = new HashMap<>(4);
+        data.put(DATE, "");
+        data.put(CUSTOMER, "");
+        data.put(VEHICLE, "");
+        data.put(MILEAGE, "");
     }
 
     public String getData(String key) {

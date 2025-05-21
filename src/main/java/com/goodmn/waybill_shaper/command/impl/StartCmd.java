@@ -7,6 +7,7 @@ import com.goodmn.waybill_shaper.cleaner.ChatCleaner;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import static com.goodmn.waybill_shaper.constant.Cmd.START_CMD;
 import static com.goodmn.waybill_shaper.constant.Constant.INFO;
 
 @Component(START_CMD)
+@EqualsAndHashCode
 @RequiredArgsConstructor
 public class StartCmd implements Command {
     private final TelegramBotExecutor executor;

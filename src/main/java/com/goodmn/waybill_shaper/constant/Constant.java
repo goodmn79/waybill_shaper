@@ -13,6 +13,7 @@ public class Constant {
     public static final String SKIP = "ПРОПУСТИТЬ";
     public static final String EMPTY_STRING = "";
     public static final String POINT = ".";
+    public static final String SEPARATOR = "|";
 //    public final static String NUMBER = "Номер: ";
 //    public final static String DATE = "Дата: ";
 //    public final static String TIME = "Время: ";
