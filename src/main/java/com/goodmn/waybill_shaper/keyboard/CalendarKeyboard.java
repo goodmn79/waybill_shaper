@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
+
+import static com.goodmn.waybill_shaper.constant.Cmd.*;
+import static com.goodmn.waybill_shaper.model.Date.FORMATTER;
 
 @Setter
 @Component
@@ -22,37 +24,34 @@ public class CalendarKeyboard {
         int daysInMonth = yearMonth.lengthOfMonth();
         int dayOfWeek = (firstDay.getDayOfWeek().getValue() % 7) - 1;
 
-        // Заголовок (месяц и год)
         int year = yearMonth.getYear();
         String month = month(yearMonth.getMonthValue());
         String monthYear = month + " " + year;
 
-        keyboard.addRow(new InlineKeyboardButton(monthYear).callbackData("ignore"));
+        keyboard.addRow(new InlineKeyboardButton(monthYear).callbackData(IGNORE_CMD));
 
-        // Дни недели
         String[] weekDays = {"Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"};
         InlineKeyboardButton[] weekDayButtons = new InlineKeyboardButton[7];
         for (int i = 0; i < 7; i++) {
-            weekDayButtons[i] = new InlineKeyboardButton(weekDays[i]).callbackData("ignore");
+            weekDayButtons[i] = new InlineKeyboardButton(weekDays[i]).callbackData(IGNORE_CMD);
         }
         keyboard.addRow(weekDayButtons);
 
-        // Числа месяца
         int day = 1;
         for (int i = 0; i < 6; i++) {
             if (day > daysInMonth) break;
             InlineKeyboardButton[] row = new InlineKeyboardButton[7];
             for (int j = 0; j < 7; j++) {
                 if (i == 0 && j < dayOfWeek || day > daysInMonth) {
-                    row[j] = new InlineKeyboardButton(" ").callbackData("ignore");
+                    row[j] = new InlineKeyboardButton(" ").callbackData(IGNORE_CMD);
                 } else {
                     LocalDate selectedDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonthValue(), day);
-                    String date = selectedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                    String date = selectedDate.format(FORMATTER);
                     String buttonText = String.valueOf(day);
                     if (selectedDate.equals(TODAY)) {
                         buttonText = "\uD83D\uDFE2";
                     }
-                    String callbackData = selectedDate.isBefore(TODAY) ? "ignore" : "select_" + date;
+                    String callbackData = selectedDate.isBefore(TODAY) ? IGNORE_CMD : DATE_CMD + date;
                     row[j] = new InlineKeyboardButton(buttonText).callbackData(callbackData);
                     day++;
                 }
@@ -60,13 +59,12 @@ public class CalendarKeyboard {
             keyboard.addRow(row);
         }
 
-        // Кнопки навигации (предыдущий/следующий месяц)
         YearMonth prevMonth = yearMonth.minusMonths(1);
         YearMonth nextMonth = yearMonth.plusMonths(1);
         keyboard.addRow(new InlineKeyboardButton("◀️").
-                        callbackData("nav_" + prevMonth.getYear() + " " + prevMonth.getMonthValue()),
+                        callbackData(NAV_CMD + prevMonth.getYear() + " " + prevMonth.getMonthValue()),
                 new InlineKeyboardButton("▶️").
-                        callbackData("nav_" + nextMonth.getYear() + " " + nextMonth.getMonthValue())
+                        callbackData(NAV_CMD + nextMonth.getYear() + " " + nextMonth.getMonthValue())
         );
         return keyboard;
     }

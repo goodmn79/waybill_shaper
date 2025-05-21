@@ -4,7 +4,7 @@ import com.goodmn.waybill_shaper.command.impl.Mileage;
 import com.goodmn.waybill_shaper.executor.TelegramBotExecutor;
 import com.goodmn.waybill_shaper.handler.UpdateHandler;
 import com.goodmn.waybill_shaper.keyboard.MainKeyboard;
-import com.goodmn.waybill_shaper.service.CleanupService;
+import com.goodmn.waybill_shaper.cleaner.ChatCleaner;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class ReplyMessageHandler implements UpdateHandler {
     private final TelegramBotExecutor executor;
     private final MainKeyboard keyboard;
-    private final CleanupService cleanupService;
+    private final ChatCleaner chatCleaner;
 
     @Override
     public boolean canHandle(Update update) {
@@ -27,8 +27,8 @@ public class ReplyMessageHandler implements UpdateHandler {
     public void handle(Update update) {
         long chatId = update.message().replyToMessage().chat().id();
 
-        cleanupService.deleteLastMessage(chatId);
-        cleanupService.deleteInputMessage(update);
+        chatCleaner.deleteLastMessage(chatId);
+        chatCleaner.deleteInputMessage(update);
 
         if (Mileage.isRequestMileage()) {
             String mileage = update.message().text();
@@ -38,7 +38,7 @@ public class ReplyMessageHandler implements UpdateHandler {
 
             Mileage.removeRequestMileage();
 
-            cleanupService.saveSentMessage(response);
+            chatCleaner.saveSentMessage(response);
         }
     }
 }

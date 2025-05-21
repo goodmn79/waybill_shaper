@@ -1,4 +1,4 @@
-package com.goodmn.waybill_shaper;
+package com.goodmn.waybill_shaper.cleaner;
 
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.response.SendResponse;

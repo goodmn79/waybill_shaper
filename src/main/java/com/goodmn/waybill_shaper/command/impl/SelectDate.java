@@ -8,41 +8,29 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-
-import static com.goodmn.waybill_shaper.constant.Cmd.NAV_CMD;
+import static com.goodmn.waybill_shaper.constant.Cmd.SELECT_DATE_CMD;
 import static com.goodmn.waybill_shaper.constant.Constant.SELECT_DATE;
 
-@Component(NAV_CMD)
+@Component(SELECT_DATE_CMD)
 @RequiredArgsConstructor
-public class Nav implements Command {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy M");
-
+public class SelectDate implements Command {
     private final TelegramBotExecutor executor;
-    private final CalendarKeyboard keyboard;
+    private final CalendarKeyboard calendarKeyboard;
     private final ChatCleaner chatCleaner;
 
     @Override
     public String cmd() {
-        return NAV_CMD;
+        return SELECT_DATE_CMD;
     }
 
     @Override
     public void execute(Update update) {
         long chatId = update.callbackQuery().from().id();
 
-        String text = update.callbackQuery().data();
-        String date = StringUtils.substringAfter(text, " ");
-        YearMonth yearMonth = YearMonth.parse(date, formatter);
-
-        keyboard.setYearMonth(yearMonth);
-
         SendResponse response = executor.sendMessage(new SendMessage(chatId, SELECT_DATE)
-                .replyMarkup(keyboard.calendar()));
+                .replyMarkup(calendarKeyboard.calendar()));
 
         chatCleaner.deleteLastMessage(chatId);
 

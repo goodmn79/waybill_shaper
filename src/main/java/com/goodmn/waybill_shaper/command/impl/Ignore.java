@@ -5,9 +5,16 @@ import com.pengrad.telegrambot.model.Update;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import static com.goodmn.waybill_shaper.constant.Cmd.IGNORE_CMD;
+
 @Slf4j
-@Component
+@Component(IGNORE_CMD)
 public class Ignore implements Command {
+    @Override
+    public String cmd() {
+        return IGNORE_CMD;
+    }
+
     @Override
     public void execute(Update update) {
         log.info("Do nothing");

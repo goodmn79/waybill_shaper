@@ -14,20 +14,25 @@ public class CommandExtractor {
     private final Map<String, Command> commands;
 
     public Command extract(String text) {
-        log.info("Извлечение команды");
+        log.info("CommandS: {}", commands);
+
+        log.warn("Extracting command");
         String stringCmd;
         if (text.startsWith("/")) {
             stringCmd = StringUtils.substringAfter(text, "/");
         } else {
-            stringCmd = StringUtils.substringBefore(text, "_");
+            stringCmd = StringUtils.substringBefore(text, " ");
         }
 
+        log.warn("Extracting command: {}", stringCmd);
+
         Command command = commands.get(stringCmd);
-        log.info("Command was getting: '{}'", command != null);
 
         if (command != null) {
+            log.info("Command successfully extracted");
             return command;
         } else {
+            log.error("Command not found");
             return commands.get("error");
         }
     }

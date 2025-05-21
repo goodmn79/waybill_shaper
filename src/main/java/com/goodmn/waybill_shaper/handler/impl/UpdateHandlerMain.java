@@ -3,7 +3,7 @@ package com.goodmn.waybill_shaper.handler.impl;
 import com.goodmn.waybill_shaper.command.Command;
 import com.goodmn.waybill_shaper.command.CommandExtractor;
 import com.goodmn.waybill_shaper.keyboard.MainKeyboard;
-import com.goodmn.waybill_shaper.service.CleanupService;
+import com.goodmn.waybill_shaper.cleaner.ChatCleaner;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -21,7 +21,7 @@ public class UpdateHandlerMain {
     private final Map<String, Command> commands;
 
     private final CommandExtractor commandExtractor;
-    private final CleanupService cleanupService;
+    private final ChatCleaner chatCleaner;
     private final MainKeyboard keyboard;
 
     public void handle(TelegramBot bot, Update update) {
@@ -42,12 +42,12 @@ public class UpdateHandlerMain {
         if (command != null) {
             command.execute(update);
         } else {
-            cleanupService.deleteLastMessage(chatId);
+            chatCleaner.deleteLastMessage(chatId);
 
             SendResponse response = bot.execute(new SendMessage(chatId, "Error!")
                     .replyMarkup(keyboard.mainKeyboard()));
 
-            cleanupService.saveSentMessage(response);
+            chatCleaner.saveSentMessage(response);
         }
     }
 

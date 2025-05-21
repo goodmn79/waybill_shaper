@@ -1,6 +1,5 @@
-package com.goodmn.waybill_shaper.service;
+package com.goodmn.waybill_shaper.cleaner;
 
-import com.goodmn.waybill_shaper.MessageStorage;
 import com.goodmn.waybill_shaper.executor.TelegramBotExecutor;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.DeleteMessage;
@@ -16,7 +15,7 @@ import java.util.Set;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CleanupService implements DisposableBean {
+public class ChatCleaner implements DisposableBean {
 
     private final MessageStorage messageStorage;
     private final TelegramBotExecutor executor;
