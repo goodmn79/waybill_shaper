@@ -2,6 +2,7 @@ package com.goodmn.waybill_shaper.writer.impl;
 
 import com.goodmn.waybill_shaper.model.Mileage;
 import com.goodmn.waybill_shaper.writer.Writeable;
+import com.goodmn.waybill_shaper.writer.WriteableCell;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.poi.ss.usermodel.Cell;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 @RequiredArgsConstructor
-public class MileageDataWriter implements Writeable {
+public class MileageDataWriter extends WriteableCell implements Writeable {
 
     private final Logger log = LoggerFactory.getLogger(MileageDataWriter.class);
 
@@ -23,7 +24,7 @@ public class MileageDataWriter implements Writeable {
     public void writeData(Workbook workbook) {
         log.info("Запись данных одометра...");
 
-        Cell V59 = this.cell(workbook, 58, 21);
+        Cell V59 = cell(workbook, 58, 21);
 
         Mileage mileage = new Mileage();
 

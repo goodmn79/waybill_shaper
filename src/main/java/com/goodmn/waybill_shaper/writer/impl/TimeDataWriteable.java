@@ -2,6 +2,7 @@ package com.goodmn.waybill_shaper.writer.impl;
 
 import com.goodmn.waybill_shaper.model.Time;
 import com.goodmn.waybill_shaper.writer.Writeable;
+import com.goodmn.waybill_shaper.writer.WriteableCell;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 @RequiredArgsConstructor
-public class TimeDataWriteable implements Writeable {
+public class TimeDataWriteable extends WriteableCell implements Writeable {
 
     private Writeable next;
 
@@ -21,16 +22,16 @@ public class TimeDataWriteable implements Writeable {
     public void writeData(Workbook workbook) {
         log.info("Запись данных о времени заказа...");
 
-        Cell AS61 = this.cell(workbook, 60, 44);
-        Cell AS66 = this.cell(workbook, 65, 44);
-        Cell AX61 = this.cell(workbook, 60, 49);
-        Cell AX66 = this.cell(workbook, 65, 49);
-        Cell BP229 = this.cell(workbook, 228, 67);
-        Cell BU69 = this.cell(workbook, 68, 72);
-        Cell BU73 = this.cell(workbook, 72, 72);
-        Cell BX229 = this.cell(workbook, 228, 75);
-        Cell H59 = this.cell(workbook, 58, 7);
-        Cell H65 = this.cell(workbook, 64, 7);
+        Cell AS61 = cell(workbook, 60, 44);
+        Cell AS66 = cell(workbook, 65, 44);
+        Cell AX61 = cell(workbook, 60, 49);
+        Cell AX66 = cell(workbook, 65, 49);
+        Cell BP229 = cell(workbook, 228, 67);
+        Cell BU69 = cell(workbook, 68, 72);
+        Cell BU73 = cell(workbook, 72, 72);
+        Cell BX229 = cell(workbook, 228, 75);
+        Cell H59 = cell(workbook, 58, 7);
+        Cell H65 = cell(workbook, 64, 7);
 
         Time time = new Time();
 

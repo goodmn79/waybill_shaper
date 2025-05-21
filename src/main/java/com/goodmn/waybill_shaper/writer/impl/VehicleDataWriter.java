@@ -2,6 +2,7 @@ package com.goodmn.waybill_shaper.writer.impl;
 
 import com.goodmn.waybill_shaper.model.Vehicle;
 import com.goodmn.waybill_shaper.writer.Writeable;
+import com.goodmn.waybill_shaper.writer.WriteableCell;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.poi.ss.usermodel.Cell;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 @RequiredArgsConstructor
-public class VehicleDataWriter implements Writeable {
+public class VehicleDataWriter extends WriteableCell implements Writeable {
 
     private final Logger log = LoggerFactory.getLogger(VehicleDataWriter.class);
 
@@ -22,11 +23,11 @@ public class VehicleDataWriter implements Writeable {
     @Override
     public void writeData(Workbook workbook) {
         log.info("Запись данных о транспортном средстве...");
-        Cell BT34 = this.cell(workbook, 33, 71);
-        Cell BX40 = this.cell(workbook, 39, 75);
-        Cell I27 = this.cell(workbook, 26, 8);
-        Cell I32 = this.cell(workbook, 31, 8);
-        Cell T36 = this.cell(workbook, 35, 19);
+        Cell BT34 = cell(workbook, 33, 71);
+        Cell BX40 = cell(workbook, 39, 75);
+        Cell I27 = cell(workbook, 26, 8);
+        Cell I32 = cell(workbook, 31, 8);
+        Cell T36 = cell(workbook, 35, 19);
 
         Vehicle vehicle = new Vehicle();
 

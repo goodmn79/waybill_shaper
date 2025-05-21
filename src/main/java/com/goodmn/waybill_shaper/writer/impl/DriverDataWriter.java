@@ -2,6 +2,7 @@ package com.goodmn.waybill_shaper.writer.impl;
 
 import com.goodmn.waybill_shaper.model.Driver;
 import com.goodmn.waybill_shaper.writer.Writeable;
+import com.goodmn.waybill_shaper.writer.WriteableCell;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class DriverDataWriter implements Writeable {
+public class DriverDataWriter extends WriteableCell implements Writeable {
 
     private final Logger log = LoggerFactory.getLogger(DriverDataWriter.class);
 
@@ -29,11 +30,11 @@ public class DriverDataWriter implements Writeable {
     public void writeData(Workbook workbook) {
         log.info("Запись данных о водителе...");
 
-        Cell AH40 = this.cell(workbook, 39, 33);
-        Cell AT141 = this.cell(workbook, 140, 45);
-        Cell F40 = this.cell(workbook, 39, 5);
-        Cell J44 = this.cell(workbook, 43, 9);
-        Cell W141 = this.cell(workbook, 140, 22);
+        Cell AH40 = cell(workbook, 39, 33);
+        Cell AT141 = cell(workbook, 140, 45);
+        Cell F40 = cell(workbook, 39, 5);
+        Cell J44 = cell(workbook, 43, 9);
+        Cell W141 = cell(workbook, 140, 22);
 
         Driver driver = new Driver();
 
