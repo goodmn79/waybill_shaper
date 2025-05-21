@@ -1,6 +1,5 @@
 package com.goodmn.waybill_shaper.component;
 
-import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Time;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Setter
 @RequiredArgsConstructor
 public class TimeDataWriteable implements Writeable {
-    private final Extractable<Time> extractor;
 
     private Writeable next;
 
@@ -33,7 +31,7 @@ public class TimeDataWriteable implements Writeable {
         Cell H59 = this.cell(workbook, 58, 7);
         Cell H65 = this.cell(workbook, 64, 7);
 
-        Time time = extractor.extractData();
+        Time time = new Time();
 
         AS61.setCellValue(time.getDepartureTime());
         if (time.containsBreak()) {

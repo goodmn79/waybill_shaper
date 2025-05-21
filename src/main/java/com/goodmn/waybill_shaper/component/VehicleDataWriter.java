@@ -1,6 +1,5 @@
 package com.goodmn.waybill_shaper.component;
 
-import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Vehicle;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Setter
 @RequiredArgsConstructor
 public class VehicleDataWriter implements Writeable {
-    private final Extractable<Vehicle> extractor;
 
     private final Logger log = LoggerFactory.getLogger(VehicleDataWriter.class);
 
@@ -29,7 +27,7 @@ public class VehicleDataWriter implements Writeable {
         Cell I32 = this.cell(workbook, 31, 8);
         Cell T36 = this.cell(workbook, 35, 19);
 
-        Vehicle vehicle = extractor.extractData();
+        Vehicle vehicle = new Vehicle();
 
         BT34.setCellValue(vehicle.getMark());
         BX40.setCellValue(vehicle.getRegistrationMark());

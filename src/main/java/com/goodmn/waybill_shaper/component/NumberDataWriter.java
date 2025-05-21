@@ -1,6 +1,5 @@
 package com.goodmn.waybill_shaper.component;
 
-import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Number;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Setter
 @RequiredArgsConstructor
 public class NumberDataWriter implements Writeable {
-    private final Extractable<Number> extractor;
 
     private final Logger log = LoggerFactory.getLogger(NumberDataWriter.class);
 
@@ -27,7 +25,7 @@ public class NumberDataWriter implements Writeable {
         Cell AH6 = this.cell(workbook, 5, 33);
         Cell BX6 = this.cell(workbook, 5, 75);
 
-        Number number = extractor.extractData();
+        Number number = new Number();
 
         AH6.setCellValue(number.getWaybillNumber());
         BX6.setCellValue(number.getCouponNumber());

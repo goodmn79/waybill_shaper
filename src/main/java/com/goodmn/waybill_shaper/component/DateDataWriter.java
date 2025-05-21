@@ -1,6 +1,5 @@
 package com.goodmn.waybill_shaper.component;
 
-import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Setter
 @RequiredArgsConstructor
 public class DateDataWriter implements Writeable {
-    private final Extractable<Date> extractor;
 
     private final Logger log = LoggerFactory.getLogger(DateDataWriter.class);
 
@@ -31,7 +29,7 @@ public class DateDataWriter implements Writeable {
         Cell M11 = this.cell(workbook, 10, 12);
         Cell Z11 = this.cell(workbook, 10, 25);
 
-        Date date = extractor.extractData();
+        Date date = new Date();
 
         String numericDateFormat = date.getNumericDateFormat();
         String textDateFormat = date.getTextDateFormat();

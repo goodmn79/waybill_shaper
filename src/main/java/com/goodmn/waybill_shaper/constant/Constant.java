@@ -8,6 +8,8 @@ public class Constant {
     public static final DateTimeFormatter TEXT_DATE_FORMAT =
             DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("ru"));
     public static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("H:mm", new Locale("ru"));
+    public static final String INFO = "Введите данные для формирования путевого листа";
+    public static final String SELECT_DATE = "Выберите дату";
     public static final String FILE_NAME = "waybill.xlsm";
     public static final String MILEAGE_INFO = "Введите показание одометра и отправьте сообщение,\nили нажмите кнопку 'ПРОПУСТИТЬ'";
     public static final String NO_DRIVER_DATA = "В документе отсутствуют данные о водителе, поскольку Ваших данных не найдено.\nДля получения заполненного документа предоставьте Ваши данные администратору.";

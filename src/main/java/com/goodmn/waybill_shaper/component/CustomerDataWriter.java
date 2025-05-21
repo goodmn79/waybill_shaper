@@ -1,6 +1,5 @@
 package com.goodmn.waybill_shaper.component;
 
-import com.goodmn.waybill_shaper.extractor.Extractable;
 import com.goodmn.waybill_shaper.model.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Setter
 @RequiredArgsConstructor
 public class CustomerDataWriter implements Writeable {
-    private final Extractable<Customer> extractor;
 
     private final Logger log = LoggerFactory.getLogger(CustomerDataWriter.class);
 
@@ -29,7 +27,7 @@ public class CustomerDataWriter implements Writeable {
         Cell AK66 = this.cell(workbook, 65, 36);
         Cell BS44 = this.cell(workbook, 43, 70);
 
-        Customer customer = extractor.extractData();
+        Customer customer = new Customer();
 
         String customerData = customer.getCustomer();
         String value1 = StringUtils.substringBefore(customerData, " ");

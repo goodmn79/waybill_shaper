@@ -1,29 +1,23 @@
 package com.goodmn.waybill_shaper.listener;
 
-import com.goodmn.waybill_shaper.service.MessageHandler;
-import com.goodmn.waybill_shaper.service.StatusManager;
+import com.goodmn.waybill_shaper.handler.UpdateHandler;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
-import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.goodmn.waybill_shaper.constant.Constant.FILE_NAME;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TelegramBotUpdatesListener implements UpdatesListener {
     private final TelegramBot telegramBot;
-    private final MessageHandler messageHandler;
-    private final StatusManager statusManager;
-
-    Logger log = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
+    //    private final StatusManager statusManager;
+    private final List<UpdateHandler> updateHandler;
 
     @PostConstruct
     public void init() {
@@ -32,16 +26,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Override
     public int process(List<Update> updates) {
-        log.info("Получено обновление");
 
         updates.forEach(update -> {
-            Message message = update.message();
-            telegramBot.execute(messageHandler.handleMessage(message));
+            log.info("Получено обновление: {}", update);
 
-            if (!statusManager.isWaitingDataStatus()) {
-                log.info("Файл отправлен пользователю.");
-                messageHandler.deleteFile(FILE_NAME);
-            }
+            updateHandler
+                    .stream()
+                    .filter(h -> h.canHandle(update))
+                    .findFirst()
+                    .ifPresent(h ->
+                            h.handle(update)
+                    );
+
+//            if (!statusManager.isWaitingDataStatus()) {
+//                log.info("Файл отправлен пользователю.");
+//                messageHandler.deleteFile(FILE_NAME);
+//            }
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
