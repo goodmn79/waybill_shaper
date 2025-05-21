@@ -22,13 +22,13 @@ public class Select implements Command {
     public void execute(Update update) {
         long chatId = update.callbackQuery().from().id();
 
-        cleanupService.deleteLastMessage(chatId);
-
         String data = update.callbackQuery().data();
         String date = StringUtils.substringAfter(data, "_");
         keyboard.setDate(date);
         SendResponse response = executor.sendMessage(new SendMessage(chatId, "Продолжим:")
                 .replyMarkup(keyboard.mainKeyboard()));
+
+        cleanupService.deleteLastMessage(chatId);
 
         cleanupService.saveSentMessage(response);
     }

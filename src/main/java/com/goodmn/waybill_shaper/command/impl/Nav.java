@@ -35,10 +35,10 @@ public class Nav implements Command {
 
         keyboard.setYearMonth(yearMonth);
 
-        cleanupService.deleteLastMessage(chatId);
-
         SendResponse response = executor.sendMessage(new SendMessage(chatId, SELECT_DATE)
                 .replyMarkup(keyboard.calendar()));
+
+        cleanupService.deleteLastMessage(chatId);
 
         cleanupService.saveSentMessage(response);
     }

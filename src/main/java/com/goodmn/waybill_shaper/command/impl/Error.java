@@ -25,12 +25,12 @@ public class Error implements Command {
     public void execute(Update update) {
         long chatId = update.callbackQuery() != null ? update.callbackQuery().from().id() : update.message().chat().id();
 
+        SendResponse response = executor.sendMessage(new SendMessage(chatId, INFO)
+                .replyMarkup(keyboard.mainKeyboard()));
+
         cleanupService.deleteLastMessage(chatId);
 
         cleanupService.deleteInputMessage(update);
-
-        SendResponse response = executor.sendMessage(new SendMessage(chatId, INFO)
-                .replyMarkup(keyboard.mainKeyboard()));
 
         cleanupService.saveSentMessage(response);
     }

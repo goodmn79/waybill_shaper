@@ -23,10 +23,10 @@ public class Date implements Command {
     public void execute(Update update) {
         long chatId = update.callbackQuery().from().id();
 
-        cleanupService.deleteLastMessage(chatId);
-
         SendResponse response = executor.sendMessage(new SendMessage(chatId, SELECT_DATE)
                 .replyMarkup(calendarKeyboard.calendar()));
+
+        cleanupService.deleteLastMessage(chatId);
 
         cleanupService.saveSentMessage(response);
     }

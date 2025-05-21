@@ -22,12 +22,12 @@ public class Mileage implements Command {
     public void execute(Update update) {
         long chatId = update.callbackQuery().from().id();
 
-        cleanupService.deleteLastMessage(chatId);
-
         setRequestMileage();
         ForceReply forceReply = new ForceReply().inputFieldPlaceholder("Пробег");
         SendResponse response = executor.sendMessage(new SendMessage(chatId, "Введите показания одометра:")
                 .replyMarkup(forceReply));
+
+        cleanupService.deleteLastMessage(chatId);
 
         cleanupService.saveSentMessage(response);
     }

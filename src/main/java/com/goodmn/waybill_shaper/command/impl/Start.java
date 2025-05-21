@@ -23,12 +23,12 @@ public class Start implements Command {
     public void execute(Update update) {
         long chatId = update.message().chat().id();
 
+        SendResponse response = executor.sendMessage(new SendMessage(chatId, INFO)
+                .replyMarkup(mainKeyboard.mainKeyboard()));
+
         cleanupService.deleteLastMessage(chatId);
 
         cleanupService.deleteInputMessage(update);
-
-        SendResponse response = executor.sendMessage(new SendMessage(chatId, INFO)
-                .replyMarkup(mainKeyboard.mainKeyboard()));
 
         cleanupService.saveSentMessage(response);
     }
