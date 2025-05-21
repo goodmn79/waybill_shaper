@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import static com.goodmn.waybill_shaper.constant.Constant.INFO;
+
 @Component
 @RequiredArgsConstructor
 public class Select implements Command {
@@ -25,7 +27,7 @@ public class Select implements Command {
         String data = update.callbackQuery().data();
         String date = StringUtils.substringAfter(data, "_");
         keyboard.setDate(date);
-        SendResponse response = executor.sendMessage(new SendMessage(chatId, "Продолжим:")
+        SendResponse response = executor.sendMessage(new SendMessage(chatId, INFO)
                 .replyMarkup(keyboard.mainKeyboard()));
 
         cleanupService.deleteLastMessage(chatId);

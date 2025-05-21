@@ -40,6 +40,11 @@ public class CleanupService implements DisposableBean {
     public void deleteInputMessage(Update update) {
         long chatId;
         Integer messageId;
+
+        if (update.message() == null) {
+            return;
+        }
+
         if (update.message().replyToMessage() != null) {
             log.info("Deleting input reply message");
             chatId = update.message().replyToMessage().chat().id();

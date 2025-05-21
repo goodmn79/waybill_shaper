@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TelegramBotUpdatesListener implements UpdatesListener {
     private final TelegramBot telegramBot;
-    //    private final StatusManager statusManager;
     private final List<UpdateHandler> updateHandler;
 
     @PostConstruct
@@ -28,7 +27,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
 
         updates.forEach(update -> {
-            log.info("Получено обновление: {}", update);
+            log.info("Получено обновление");
 
             updateHandler
                     .stream()
@@ -38,10 +37,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                             h.handle(update)
                     );
 
-//            if (!statusManager.isWaitingDataStatus()) {
 //                log.info("Файл отправлен пользователю.");
 //                messageHandler.deleteFile(FILE_NAME);
-//            }
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
