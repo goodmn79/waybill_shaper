@@ -1,6 +1,7 @@
-package com.goodmn.waybill_shaper.component;
+package com.goodmn.waybill_shaper.writer.impl;
 
 import com.goodmn.waybill_shaper.model.Vehicle;
+import com.goodmn.waybill_shaper.writer.Writeable;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.poi.ss.usermodel.Cell;

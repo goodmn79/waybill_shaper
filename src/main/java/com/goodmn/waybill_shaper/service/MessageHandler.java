@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.service;
 
-import com.goodmn.waybill_shaper.component.Writeable;
+import com.goodmn.waybill_shaper.writer.Writeable;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;

@@ -1,4 +1,4 @@
-package com.goodmn.waybill_shaper.component;
+package com.goodmn.waybill_shaper.writer;
 
 
 import org.apache.poi.ss.usermodel.Cell;

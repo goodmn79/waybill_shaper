@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.configuration;
 
-import com.goodmn.waybill_shaper.component.Writeable;
+import com.goodmn.waybill_shaper.writer.Writeable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
