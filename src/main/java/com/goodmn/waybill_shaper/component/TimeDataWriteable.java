@@ -37,8 +37,8 @@ public class TimeDataWriteable implements Writeable {
 
         AS61.setCellValue(time.getDepartureTime());
         if (time.containsBreak()) {
-            AS66.setCellValue(time.getStartBreak());
-            AX61.setCellValue(time.getEndBreak());
+            AX61.setCellValue(time.getStartBreak());
+            AS66.setCellValue(time.getEndBreak());
             AX66.setCellValue(time.getArrivalTime());
         } else {
             AX61.setCellValue(time.getArrivalTime());
