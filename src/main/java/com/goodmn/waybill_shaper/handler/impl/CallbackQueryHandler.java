@@ -1,7 +1,7 @@
 package com.goodmn.waybill_shaper.handler.impl;
 
 import com.goodmn.waybill_shaper.command.Command;
-import com.goodmn.waybill_shaper.command.CommandExtractor;
+import com.goodmn.waybill_shaper.extractor.Extractor;
 import com.goodmn.waybill_shaper.handler.UpdateHandler;
 import com.pengrad.telegrambot.model.Update;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CallbackQueryHandler implements UpdateHandler {
-    private final CommandExtractor commandExtractor;
+    private final Extractor<Command> extractor;
 
     @Override
     public boolean canHandle(Update update) {
@@ -21,9 +21,8 @@ public class CallbackQueryHandler implements UpdateHandler {
 
     @Override
     public void handle(Update update) {
-        long chatId = update.callbackQuery().from().id();
         String text = update.callbackQuery().data();
-        Command command = commandExtractor.extract(text);
+        Command command = extractor.extract(text);
         command.execute(update);
     }
 }

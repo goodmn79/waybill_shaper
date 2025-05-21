@@ -2,7 +2,7 @@ package com.goodmn.waybill_shaper.command.impl;
 
 import com.goodmn.waybill_shaper.command.Command;
 import com.goodmn.waybill_shaper.executor.TelegramBotExecutor;
-import com.goodmn.waybill_shaper.keyboard.MainKeyboard;
+import com.goodmn.waybill_shaper.keyboard.CalendarKeyboard;
 import com.goodmn.waybill_shaper.cleaner.ChatCleaner;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -11,30 +11,38 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import static com.goodmn.waybill_shaper.constant.Cmd.DATE_CMD;
-import static com.goodmn.waybill_shaper.constant.Constant.INFO;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 
-@Component(DATE_CMD)
+import static com.goodmn.waybill_shaper.constant.Cmd.NAV_CMD;
+import static com.goodmn.waybill_shaper.constant.Constant.SELECT_DATE;
+
+@Component(NAV_CMD)
 @RequiredArgsConstructor
-public class Date implements Command {
+public class NavCmd implements Command {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy M");
+
     private final TelegramBotExecutor executor;
-    private final MainKeyboard keyboard;
+    private final CalendarKeyboard keyboard;
     private final ChatCleaner chatCleaner;
 
     @Override
     public String cmd() {
-        return DATE_CMD;
+        return NAV_CMD;
     }
 
     @Override
     public void execute(Update update) {
         long chatId = update.callbackQuery().from().id();
 
-        String data = update.callbackQuery().data();
-        String date = StringUtils.substringAfter(data, DATE_CMD).trim();
-        keyboard.setDate(date);
-        SendResponse response = executor.sendMessage(new SendMessage(chatId, INFO)
-                .replyMarkup(keyboard.mainKeyboard()));
+        String text = update.callbackQuery().data();
+        String date = StringUtils.substringAfter(text, " ");
+        YearMonth yearMonth = YearMonth.parse(date, formatter);
+
+        keyboard.setYearMonth(yearMonth);
+
+        SendResponse response = executor.sendMessage(new SendMessage(chatId, SELECT_DATE)
+                .replyMarkup(keyboard.calendar()));
 
         chatCleaner.deleteLastMessage(chatId);
 

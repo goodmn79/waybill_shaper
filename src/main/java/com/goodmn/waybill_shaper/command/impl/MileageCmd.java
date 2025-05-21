@@ -14,7 +14,7 @@ import static com.goodmn.waybill_shaper.constant.Cmd.MILEAGE_CMD;
 
 @Component(MILEAGE_CMD)
 @RequiredArgsConstructor
-public class Mileage implements Command {
+public class MileageCmd implements Command {
     private static int requestMileage = 0;
 
     private final TelegramBotExecutor executor;

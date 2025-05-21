@@ -1,9 +1,9 @@
 package com.goodmn.waybill_shaper.handler.impl;
 
-import com.goodmn.waybill_shaper.command.Command;
-import com.goodmn.waybill_shaper.command.CommandExtractor;
-import com.goodmn.waybill_shaper.keyboard.MainKeyboard;
 import com.goodmn.waybill_shaper.cleaner.ChatCleaner;
+import com.goodmn.waybill_shaper.command.Command;
+import com.goodmn.waybill_shaper.extractor.Extractor;
+import com.goodmn.waybill_shaper.keyboard.MainKeyboard;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class UpdateHandlerMain {
     private final Map<String, Command> commands;
 
-    private final CommandExtractor commandExtractor;
+    private final Extractor<Command> extractor;
     private final ChatCleaner chatCleaner;
     private final MainKeyboard keyboard;
 
@@ -37,7 +37,7 @@ public class UpdateHandlerMain {
             chatId = update.callbackQuery().from().id();
         }
 
-        Command command = commandExtractor.extract(text);
+        Command command = extractor.extract(text);
 
         if (command != null) {
             command.execute(update);

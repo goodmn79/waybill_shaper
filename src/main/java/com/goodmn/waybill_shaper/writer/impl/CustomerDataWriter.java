@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.writer.impl;
 
-import com.goodmn.waybill_shaper.model.Customer;
+import com.goodmn.waybill_shaper.dto.Customer;
 import com.goodmn.waybill_shaper.writer.Writeable;
 import com.goodmn.waybill_shaper.writer.WriteableCell;
 import lombok.RequiredArgsConstructor;

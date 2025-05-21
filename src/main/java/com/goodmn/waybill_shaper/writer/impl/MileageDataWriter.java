@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.writer.impl;
 
-import com.goodmn.waybill_shaper.model.Mileage;
+import com.goodmn.waybill_shaper.dto.Mileage;
 import com.goodmn.waybill_shaper.writer.Writeable;
 import com.goodmn.waybill_shaper.writer.WriteableCell;
 import lombok.RequiredArgsConstructor;

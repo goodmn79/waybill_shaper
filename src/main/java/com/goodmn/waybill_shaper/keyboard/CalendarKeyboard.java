@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 
 import static com.goodmn.waybill_shaper.constant.Cmd.*;
-import static com.goodmn.waybill_shaper.model.Date.FORMATTER;
+import static com.goodmn.waybill_shaper.dto.DateData.NUMERIC_DATE_FORMATTER;
 
 @Setter
 @Component
@@ -46,7 +46,7 @@ public class CalendarKeyboard {
                     row[j] = new InlineKeyboardButton(" ").callbackData(IGNORE_CMD);
                 } else {
                     LocalDate selectedDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonthValue(), day);
-                    String date = selectedDate.format(FORMATTER);
+                    String date = selectedDate.format(NUMERIC_DATE_FORMATTER);
                     String buttonText = String.valueOf(day);
                     if (selectedDate.equals(TODAY)) {
                         buttonText = "\uD83D\uDFE2";

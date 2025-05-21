@@ -1,4 +1,4 @@
-package com.goodmn.waybill_shaper.model;
+package com.goodmn.waybill_shaper.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

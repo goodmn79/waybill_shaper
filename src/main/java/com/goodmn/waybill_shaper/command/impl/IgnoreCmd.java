@@ -9,7 +9,7 @@ import static com.goodmn.waybill_shaper.constant.Cmd.IGNORE_CMD;
 
 @Slf4j
 @Component(IGNORE_CMD)
-public class Ignore implements Command {
+public class IgnoreCmd implements Command {
     @Override
     public String cmd() {
         return IGNORE_CMD;

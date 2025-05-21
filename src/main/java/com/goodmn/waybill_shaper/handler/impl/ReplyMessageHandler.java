@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.handler.impl;
 
-import com.goodmn.waybill_shaper.command.impl.Mileage;
+import com.goodmn.waybill_shaper.command.impl.MileageCmd;
 import com.goodmn.waybill_shaper.executor.TelegramBotExecutor;
 import com.goodmn.waybill_shaper.handler.UpdateHandler;
 import com.goodmn.waybill_shaper.keyboard.MainKeyboard;
@@ -10,6 +10,8 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import static com.goodmn.waybill_shaper.constant.Constant.INFO;
 
 @Component
 @RequiredArgsConstructor
@@ -30,13 +32,13 @@ public class ReplyMessageHandler implements UpdateHandler {
         chatCleaner.deleteLastMessage(chatId);
         chatCleaner.deleteInputMessage(update);
 
-        if (Mileage.isRequestMileage()) {
+        if (MileageCmd.isRequestMileage()) {
             String mileage = update.message().text();
             keyboard.setMileage(mileage);
-            SendResponse response = executor.sendMessage(new SendMessage(chatId, "Продолжим:")
+            SendResponse response = executor.sendMessage(new SendMessage(chatId, INFO)
                     .replyMarkup(keyboard.mainKeyboard()));
 
-            Mileage.removeRequestMileage();
+            MileageCmd.removeRequestMileage();
 
             chatCleaner.saveSentMessage(response);
         }

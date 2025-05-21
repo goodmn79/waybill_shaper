@@ -17,7 +17,7 @@ import static com.goodmn.waybill_shaper.constant.Constant.INFO;
 @Slf4j
 @Component(ERROR_CMD)
 @RequiredArgsConstructor
-public class Error implements Command {
+public class ErrorCmd implements Command {
     private final TelegramBotExecutor executor;
     private final MainKeyboard keyboard;
     private final ChatCleaner chatCleaner;

@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.writer.impl;
 
-import com.goodmn.waybill_shaper.model.Date;
+import com.goodmn.waybill_shaper.dto.DateData;
 import com.goodmn.waybill_shaper.writer.Writeable;
 import com.goodmn.waybill_shaper.writer.WriteableCell;
 import lombok.Setter;
@@ -26,10 +26,10 @@ public class DateDataWriter extends WriteableCell implements Writeable {
         Cell M11 = cell(workbook, 10, 12);
         Cell Z11 = cell(workbook, 10, 25);
 
-        Date date = new Date("");
+        DateData dateData = new DateData("");
 
-        String numericDateFormat = date.numericDateFormat();
-        String textDateFormat = date.textDateFormat();
+        String numericDateFormat = dateData.numericDateFormat();
+        String textDateFormat = dateData.textDateFormat();
 
         AC59.setCellValue(numericDateFormat);
         AP85.setCellValue(numericDateFormat);
@@ -37,6 +37,7 @@ public class DateDataWriter extends WriteableCell implements Writeable {
         BR10.setCellValue(textDateFormat);
         M11.setCellValue(textDateFormat);
         Z11.setCellValue(textDateFormat);
+
         log.info("Данные о дате заказа успешно записаны.");
 
         if (this.next != null) {

@@ -1,5 +1,6 @@
-package com.goodmn.waybill_shaper.command;
+package com.goodmn.waybill_shaper.extractor;
 
+import com.goodmn.waybill_shaper.command.Command;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -10,9 +11,10 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CommandExtractor {
+public class CommandExtractor implements Extractor<Command> {
     private final Map<String, Command> commands;
 
+    @Override
     public Command extract(String text) {
         log.info("CommandS: {}", commands);
 

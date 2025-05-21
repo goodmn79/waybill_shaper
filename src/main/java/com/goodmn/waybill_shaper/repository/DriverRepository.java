@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.repository;
 
-import com.goodmn.waybill_shaper.model.Driver;
+import com.goodmn.waybill_shaper.dto.Driver;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

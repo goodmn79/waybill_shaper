@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.service;
 
-import com.goodmn.waybill_shaper.model.Driver;
+import com.goodmn.waybill_shaper.dto.Driver;
 import com.goodmn.waybill_shaper.repository.DriverRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

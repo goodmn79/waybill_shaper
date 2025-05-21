@@ -1,5 +1,6 @@
 package com.goodmn.waybill_shaper;
 
+import com.goodmn.waybill_shaper.dto.DateData;
 import com.pengrad.telegrambot.model.Update;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +35,8 @@ public class Example {
 //            System.out.println(StringUtils.substringBefore(s, "_"));
         }
 
-        String dateStr = "2025-05-21";
-        LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String dateStr = "21.05.2025";
+        DateData dateData = new DateData(dateStr);
+        System.out.println(dateData.numericDateFormat());
     }
 }
