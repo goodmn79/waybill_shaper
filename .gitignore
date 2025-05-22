@@ -40,4 +40,4 @@ build/
 /.env
 /db/ws-db.mv.db
 /db/ws-db.trace.db
-/src/main/resources/liquibase/scripts/init_data.sql
+/src/main/resources/liquibase/scripts/
