@@ -38,6 +38,6 @@ build/
 /src/main/resources/application-dev.properties
 /src/main/resources/application.properties
 /.env
-/db/ws-db.mv.db
-/db/ws-db.trace.db
+/db/
+*.db
 /src/main/resources/liquibase/scripts/
