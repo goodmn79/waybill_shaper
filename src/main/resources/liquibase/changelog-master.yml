@@ -1,8 +1,8 @@
 databaseChangeLog:
   - include:
-      file: liquibase/scripts/init_schema.sql
+      file: scripts/init_schema.sql
       relativeToChangelogFile: true
       context: init
   - include:
-      file: liquibase/scripts/data_load.sql
+      file: scripts/data_load.sql
       relativeToChangelogFile: true
