@@ -39,4 +39,4 @@ build/
 /.env
 /db/
 *.db
-/src/main/resources/liquibase/scripts/
+/src/main/resources/liquibase/scripts/data_load.sql
