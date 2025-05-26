@@ -6,6 +6,7 @@ public class ButtonName {
     public static final String CUSTOMER = "Заказчик";
     public static final String VEHICLE = "Транспортное средство";
     public static final String MILEAGE = "Показания одометра";
-    public static final String RESET = "Сбросить";
+    public static final String RESET = "СБРОСИТЬ";
+    public static final String SKIP = "ПРОПУСТИТЬ";
 
 }

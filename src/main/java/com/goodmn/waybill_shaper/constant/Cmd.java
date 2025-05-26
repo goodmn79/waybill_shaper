@@ -13,4 +13,5 @@ public class Cmd {
     public static final String VEHICLE_CMD = "vehicle|";
     public static final String GENERATE_WAYBILL_CMD = "waybill|";
     public static final String RESET_CMD = "reset|";
+    public static final String SKIP_CMD = "skip|";
 }
