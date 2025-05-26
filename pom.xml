@@ -5,27 +5,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.2</version>
+        <version>3.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.goodmn</groupId>
     <artifactId>waybill_shaper</artifactId>
-    <version>2.0</version>
-    <name>waybill_shaper</name>
-    <description>waybill_shaper</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+    <version>3.0</version>
+    <name>ws</name>
+    <description>Telegram bot filling out a waybill</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -33,6 +20,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            <version>3.4.5</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -64,6 +52,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>3.4.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
