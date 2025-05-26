@@ -29,12 +29,12 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/goodmn79/waybill_shaper
    ```
 
 2. Перейдите в директорию проекта:
    ```bash
-   cd <project-directory>
+   cd waybill_shaper
    ```
 
 3. Соберите проект:
@@ -44,31 +44,23 @@
 
 4. Запустите приложение:
    ```bash
-   java -jar target/your-app-name.jar
+   java -jar target/waybill_shaper-2.1.jar
    ```
 
 ## Конфигурация
 
-Перед запуском необходимо настроить следующие параметры в `application.properties` или `application.yml`:
+Перед запуском необходимо создать файл '.env', добавив значения для следуюзих переменных окужения:
 
-```properties
+```env
 # Telegram Bot Configuration
-telegram.bot.token=YOUR_BOT_TOKEN
-telegram.bot.username=YOUR_BOT_USERNAME
+TELEGRAM_BOT_TOKEN=<your_telegram-bot_token>
 
 # Database Configuration (H2)
-spring.datasource.url=jdbc:h2:file:./data/waybillbot
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=password
-spring.h2.console.enabled=true
-spring.h2.console.path=/h2-console
-
-# JPA Configuration
-spring.jpa.show-sql=true
-spring.jpa.hibernate.ddl-auto=none
-spring.jpa.properties.hibernate.format_sql=true
+SPRING_DATASOURCE_USERNAME=<your_db_username>
+SPRING_DATASOURCE_PASSWORD=<your_db_password>
 ```
+
+Так же необходимо создать файл по пути: src/main/resources/liquibase/scripts/data_load.sql, с INSERT запросом на добавление данных о водителях и транспортных средствах в таблицы DRIVERS, VEHICLES, передав в качестве id водителя его telegram user id, иначе, при отсутствии данных, будет сформирован пустой путевой лист.
 
 ## Использование
 
@@ -92,7 +84,9 @@ src/
 │   │       └── WaybillBotApplication.java # Главный класс приложения
 │   └── resources/
 │       ├── template/            # Шаблоны Excel
-│       ├── db/changelog/        # Миграции Liquibase
+│       ├── liquibase/           # Миграции Liquibase
+│       │    └──scripts/          # SQL-скрипты на создание таблиц и добавление данных
+│       │  
 │       └── application.properties # Конфигурация приложения
 └── test/                        # Тесты
 ```
