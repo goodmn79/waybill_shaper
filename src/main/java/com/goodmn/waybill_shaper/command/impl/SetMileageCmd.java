@@ -23,7 +23,7 @@ import static com.goodmn.waybill_shaper.constant.Constant.INFO;
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class SetMileageCmd implements Command {
-    private final DataStorage dataStorage;
+    private final DataStorage storage;
     private final ChatCleaner chatCleaner;
     private final MainKeyboard keyboard;
     private final TelegramBotExecutor executor;
@@ -43,7 +43,7 @@ public class SetMileageCmd implements Command {
         String mileage = update.message().text();
 
         if (StringUtils.isNumeric(mileage)) {
-            dataStorage.addData(MILEAGE, mileage);
+            storage.addData(MILEAGE, mileage);
             keyboard.setMileage(mileage);
             log.info("Data has been saved");
         }

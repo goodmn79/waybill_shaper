@@ -1,6 +1,6 @@
 package com.goodmn.waybill_shaper.service;
 
-import com.goodmn.waybill_shaper.writer.Writeable;
+import com.goodmn.waybill_shaper.writer.Writer;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
@@ -29,7 +29,7 @@ public class MessageHandler {
     private final DataExtractionUtility extractionUtility;
     private final StatusManager statusManager;
 
-    private final Writeable writeable;
+    private final Writer writer;
 
     private final Logger log = LoggerFactory.getLogger(MessageHandler.class);
 
@@ -55,7 +55,7 @@ public class MessageHandler {
 
     private SendDocument sendWaybill(Message message) {
         long chatId = message.chat().id();
-        writeable.writeData(waybillTemplate);
+//        writer.writeData(waybillTemplate);
         return new SendDocument(chatId, this.saveToFile(waybillTemplate));
     }
 

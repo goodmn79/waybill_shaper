@@ -12,10 +12,10 @@ import java.io.InputStream;
 
 @Configuration
 @Scope("prototype")
-public class WaybillTemplateConfig {
+public class WaybillConfig {
 
     @Bean
-    public Workbook waybillTemplate() throws IOException {
+    public Workbook waybill() throws IOException {
         ClassPathResource resource = new ClassPathResource("templates/waybill_template.xlsm");
         try (InputStream is = resource.getInputStream()) {
             return new XSSFWorkbook(is);

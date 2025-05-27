@@ -1,33 +1,32 @@
 package com.goodmn.waybill_shaper.writer.impl;
 
 import com.goodmn.waybill_shaper.dto.Driver;
-import com.goodmn.waybill_shaper.writer.Writeable;
+import com.goodmn.waybill_shaper.storage.DataStorage;
 import com.goodmn.waybill_shaper.writer.WriteableCell;
+import com.goodmn.waybill_shaper.writer.Writer;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @Primary
 @Order(0)
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class DriverDataWriter extends WriteableCell implements Writeable {
+public class DriverDataWriter extends WriteableCell implements Writer {
 
-    private final Logger log = LoggerFactory.getLogger(DriverDataWriter.class);
-
-    private Writeable next;
+    private Writer next;
 
     @Override
-    public void writeData(Workbook workbook) {
+    public void writeData(Workbook workbook, DataStorage storage) {
         log.info("Запись данных о водителе...");
 
         Cell AH40 = cell(workbook, 39, 33);
@@ -46,7 +45,7 @@ public class DriverDataWriter extends WriteableCell implements Writeable {
         log.info("Данные о водителе успешно записаны.");
 
         if (this.next != null) {
-            this.next.writeData(workbook);
+            this.next.writeData(workbook, storage);
         }
     }
 }

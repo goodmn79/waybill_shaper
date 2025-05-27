@@ -1,7 +1,8 @@
 package com.goodmn.waybill_shaper.writer.impl;
 
 import com.goodmn.waybill_shaper.dto.Vehicle;
-import com.goodmn.waybill_shaper.writer.Writeable;
+import com.goodmn.waybill_shaper.storage.DataStorage;
+import com.goodmn.waybill_shaper.writer.Writer;
 import com.goodmn.waybill_shaper.writer.WriteableCell;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,14 +15,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 @RequiredArgsConstructor
-public class VehicleDataWriter extends WriteableCell implements Writeable {
+public class VehicleDataWriter extends WriteableCell implements Writer {
 
     private final Logger log = LoggerFactory.getLogger(VehicleDataWriter.class);
 
-    private Writeable next;
+    private Writer next;
 
     @Override
-    public void writeData(Workbook workbook) {
+    public void writeData(Workbook workbook, DataStorage storage) {
         log.info("Запись данных о транспортном средстве...");
         Cell BT34 = cell(workbook, 33, 71);
         Cell BX40 = cell(workbook, 39, 75);
@@ -39,7 +40,7 @@ public class VehicleDataWriter extends WriteableCell implements Writeable {
         log.info("Данные о транспортном средстве успешно записаны.");
 
         if (this.next != null) {
-            this.next.writeData(workbook);
+            this.next.writeData(workbook, storage);
         }
     }
 }

@@ -1,8 +1,9 @@
 package com.goodmn.waybill_shaper.writer.impl;
 
 import com.goodmn.waybill_shaper.dto.Time;
-import com.goodmn.waybill_shaper.writer.Writeable;
+import com.goodmn.waybill_shaper.storage.DataStorage;
 import com.goodmn.waybill_shaper.writer.WriteableCell;
+import com.goodmn.waybill_shaper.writer.Writer;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -14,12 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 @RequiredArgsConstructor
-public class TimeDataWriteable extends WriteableCell implements Writeable {
+public class TimeDataWriter extends WriteableCell implements Writer {
 
-    private Writeable next;
+    private Writer next;
 
     @Override
-    public void writeData(Workbook workbook) {
+    public void writeData(Workbook workbook, DataStorage storage) {
         log.info("Запись данных о времени заказа...");
 
         Cell AS61 = cell(workbook, 60, 44);
@@ -52,7 +53,7 @@ public class TimeDataWriteable extends WriteableCell implements Writeable {
         log.info("Данные о времени заказа успешно записаны.");
 
         if (this.next != null) {
-            this.next.writeData(workbook);
+            this.next.writeData(workbook, storage);
         }
     }
 }

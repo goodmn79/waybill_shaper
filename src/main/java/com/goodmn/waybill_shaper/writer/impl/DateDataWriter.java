@@ -1,22 +1,27 @@
 package com.goodmn.waybill_shaper.writer.impl;
 
 import com.goodmn.waybill_shaper.dto.DateData;
-import com.goodmn.waybill_shaper.writer.Writeable;
+import com.goodmn.waybill_shaper.storage.DataStorage;
 import com.goodmn.waybill_shaper.writer.WriteableCell;
+import com.goodmn.waybill_shaper.writer.Writer;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Component;
 
+import static com.goodmn.waybill_shaper.constant.ButtonName.DATE;
+
 @Slf4j
 @Component
 @Setter
-public class DateDataWriter extends WriteableCell implements Writeable {
-    private Writeable next;
+@RequiredArgsConstructor
+public class DateDataWriter extends WriteableCell implements Writer {
+    private Writer next;
 
     @Override
-    public void writeData(Workbook workbook) {
+    public void writeData(Workbook workbook, DataStorage storage) {
         log.info("Запись данных о дате заказа...");
 
         Cell AC59 = cell(workbook, 58, 28);
@@ -26,7 +31,8 @@ public class DateDataWriter extends WriteableCell implements Writeable {
         Cell M11 = cell(workbook, 10, 12);
         Cell Z11 = cell(workbook, 10, 25);
 
-        DateData dateData = new DateData("");
+        String date = storage.getData(DATE);
+        DateData dateData = new DateData(date);
 
         String numericDateFormat = dateData.numericDateFormat();
         String textDateFormat = dateData.textDateFormat();
@@ -41,7 +47,7 @@ public class DateDataWriter extends WriteableCell implements Writeable {
         log.info("Данные о дате заказа успешно записаны.");
 
         if (this.next != null) {
-            this.next.writeData(workbook);
+            this.next.writeData(workbook, storage);
         }
     }
 }
