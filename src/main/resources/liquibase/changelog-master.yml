@@ -1,3 +1,9 @@
 databaseChangeLog:
   - include:
-      file: liquibase/scripts/waybill.sql
+      file: scripts/init_schema.sql
+      relativeToChangelogFile: true
+      context: init
+  - include:
+      file: scripts/load_data.sql
+      relativeToChangelogFile: true
+      context: data

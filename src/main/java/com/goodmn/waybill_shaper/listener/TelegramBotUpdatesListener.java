@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -34,7 +35,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     .filter(h -> h.canHandle(update))
                     .findFirst()
                     .ifPresent(h ->
-                            h.handle(update)
+                            {
+                                try {
+                                    h.handle(update);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
                     );
 
 //                log.info("Файл отправлен пользователю.");

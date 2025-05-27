@@ -1,6 +1,5 @@
 package com.goodmn.waybill_shaper.writer.impl;
 
-import com.goodmn.waybill_shaper.dto.Mileage;
 import com.goodmn.waybill_shaper.storage.DataStorage;
 import com.goodmn.waybill_shaper.writer.WriteableCell;
 import com.goodmn.waybill_shaper.writer.Writer;
@@ -11,12 +10,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Component;
 
+import static com.goodmn.waybill_shaper.constant.ButtonName.MILEAGE;
+
 @Slf4j
 @Component
 @Setter
 @RequiredArgsConstructor
 public class MileageDataWriter extends WriteableCell implements Writer {
-    private final DataStorage dataStorage;
 
     private Writer next;
 
@@ -26,9 +26,9 @@ public class MileageDataWriter extends WriteableCell implements Writer {
 
         Cell V59 = cell(workbook, 58, 21);
 
-        Mileage mileage = new Mileage();
+        String mileage = storage.getData(MILEAGE);
 
-        V59.setCellValue(mileage.getMileage());
+        V59.setCellValue(mileage);
         log.info("Данные одометра успешно записаны.");
 
         if (this.next != null) {

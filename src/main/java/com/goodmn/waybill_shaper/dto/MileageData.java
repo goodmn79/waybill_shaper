@@ -5,6 +5,6 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class Mileage {
+public class MileageData {
     private String mileage;
 }

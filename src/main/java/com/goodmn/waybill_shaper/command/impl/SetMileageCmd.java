@@ -46,6 +46,8 @@ public class SetMileageCmd implements Command {
             storage.addData(MILEAGE, mileage);
             keyboard.setMileage(mileage);
             log.info("Data has been saved");
+        } else {
+            log.error("Wrong mileage data");
         }
         SendResponse response = executor.sendMessage(new SendMessage(chatId, INFO)
                 .replyMarkup(keyboard.mainKeyboard()));
